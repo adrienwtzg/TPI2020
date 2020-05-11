@@ -1,0 +1,40 @@
+#navigation {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #CED6D6;
+}
+
+.pages {
+  float: left;
+}
+
+.pages a {
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.pages a:hover {
+  background-color: #F4F9F9;
+}
+
+#titlenav {
+  float: left;
+}
+
+#titlenav a {
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-variant: small-caps;
+}
+
+#titlenav a:hover {
+  background-color: #F4F9F9;
+}
