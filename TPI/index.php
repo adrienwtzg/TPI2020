@@ -10,14 +10,9 @@ include 'views/head.php';
 //Nom de la page actuelle
 $page = (isset($_GET["page"]) ? $_GET["page"] : "");
 
-if ($page == "") {
+if ($page == "" || $page == "login") {
   include 'views/login.php';
 }
-elseif ($page == "") {
-  //include 'include/home.php';
-}
 
-//Pied de page
-include 'views/footer.php';
 
 ?>

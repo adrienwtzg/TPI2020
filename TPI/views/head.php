@@ -7,17 +7,18 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <!-- END BOOTSTRAP -->
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
     <title>Evaluation des projets en école entreprise</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
-    <ul id="navigation">
-      <li id="titlenav" ><a>Evaluation projets EE</a></li>
-      <li class="pages"><a href="index.php?page=login">Login</a></li>
-      <li class="pages"><a href="index.php?page=home">Home</a></li>
-    </ul>
-    <div class="alert alert-success" role="alert">
-  A simple light alert—check it out!
-</div>
+    <nav>
+      <ul id="navigation">
+        <li id="titlenav"><a>Evaluation projets EE</a></li>
+        <li class="pages"><a href="index.php?page=login">Login</a></li>
+        <li class="pages"><a href="index.php?page=home">Home</a></li>
+
+        <li class="pages" style="float: right;"><a href="index.php?page=home">Déconnexion</a></li>
+      </ul>
+    </nav>

@@ -1,3 +1,22 @@
+html, body {
+  background-color: #EAF5F5 !important;
+}
+
+form {
+  background-color: #CED6D6 !important;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.marge {
+  height: 60px;
+}
+
+.title {
+  font-family: URW Chancery L;
+  padding-bottom: 5px;
+}
+
 #navigation {
   list-style-type: none;
   margin: 0;
@@ -11,6 +30,18 @@
 }
 
 .pages a {
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+#navRight {
+  float: right;
+}
+
+#navRightLink {
   display: block;
   color: black;
   text-align: center;
@@ -40,7 +71,7 @@
 }
 
 
-footer {
+#footer {
   position: fixed;
   left: 0;
   bottom: 0;
