@@ -18,3 +18,6 @@
       <li class="pages"><a href="index.php?page=login">Login</a></li>
       <li class="pages"><a href="index.php?page=home">Home</a></li>
     </ul>
+    <div class="alert alert-success" role="alert">
+  A simple light alert—check it out!
+</div>

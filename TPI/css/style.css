@@ -38,3 +38,18 @@
 #titlenav a:hover {
   background-color: #F4F9F9;
 }
+
+
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #CED6D6;
+  color: black;
+  text-align: center;
+}
+
+#footerText {
+  margin-top: 10px;
+}
