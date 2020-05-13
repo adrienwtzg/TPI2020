@@ -32,7 +32,8 @@ $query->bindParam(2, $dataLogin["nom"]);
       header('Location: ../index.php?page=home');
     }
     else {
-      header('Location: ');
+      $_SESSION["loginError"] = "<div class=\"alert alert-danger\" role=\"alert\">Les identifiants de connexion sont incorrects</div>";
+      header('Location: ../index.php?page=login');
     }
   }
   else {
