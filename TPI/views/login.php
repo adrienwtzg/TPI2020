@@ -5,7 +5,7 @@
       <div class="row">
         <div class="col-3"></div>
         <div class="col-6">
-          <form action="" method="POST" class="loginForm">
+          <form action="./model/checkLogin.php" method="POST" class="loginForm">
             <h2 class="text-center title">Connexion</h2>
             <div class="form-group">
               <div class="row">

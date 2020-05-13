@@ -13,6 +13,9 @@ $page = (isset($_GET["page"]) ? $_GET["page"] : "");
 if ($page == "" || $page == "login") {
   include 'views/login.php';
 }
+elseif ($page == "home") {
+  include 'views/home.php';
+}
 
 
 ?>
