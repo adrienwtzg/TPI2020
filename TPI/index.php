@@ -16,6 +16,9 @@ if ($page == "" || $page == "login") {
 elseif ($page == "home") {
   include 'views/home.php';
 }
+elseif ($page == "logout") {
+  header('Location: model/logout.php');
+}
 
 
 ?>

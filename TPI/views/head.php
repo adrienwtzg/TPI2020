@@ -19,6 +19,6 @@
         <li class="pages"><a href="index.php?page=login">Login</a></li>
         <li class="pages"><a href="index.php?page=home">Home</a></li>
 
-        <li class="pages" style="float: right;"><a href="index.php?page=home">Déconnexion</a></li>
+        <li class="pages" style="float: right;"><a href="index.php?page=logout">Déconnexion</a></li>
       </ul>
     </nav>

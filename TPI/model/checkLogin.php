@@ -1,6 +1,9 @@
 <?php
 require_once('../db/databaseConnection.php');
-
+//Démarre la session si ça n'est pas déja fait
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 //Vérifie que les entrées sont correctement syntaxé
 $dataLogin = filter_input_array(INPUT_POST, [
     "prenom" => FILTER_SANITIZE_STRING,
@@ -25,15 +28,15 @@ $query->bindParam(2, $dataLogin["nom"]);
       $_SESSION["nom"] = $dataLogin["nom"];
       $_SESSION["prenom"] = $dataLogin["prenom"];
       $_SESSION["statut"] = $statut;
-
+      print_r($_SESSION);
       header('Location: ../index.php?page=home');
     }
     else {
-      header('Location: index.php?page=asd');
+      header('Location: ');
     }
   }
   else {
-    header('Location: index.php?page=sda');
+    header('Location: ');
   }
 
 ?>
