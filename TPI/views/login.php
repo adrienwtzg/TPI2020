@@ -13,6 +13,9 @@ if (isset($_SESSION['loginError']))
         <div class="col-6">
           <form action="./model/checkLogin.php" method="POST" class="loginForm">
             <h2 class="text-center title">Connexion</h2>
+            <div class="alert alert-primary" role="alert">
+              Vous n'avez pas de compte ? Inscrivez-vous <a href="index.php?page=inscription">ici</a>
+            </div>
             <div class="form-group">
               <div class="row">
                 <div class="col">
@@ -26,7 +29,7 @@ if (isset($_SESSION['loginError']))
             <div class="form-group">
               <input type="password" class="form-control" placeholder="Mot de passe" name="motDePasse" required>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Se connecter</button>
+            <button type="submit" class="btn btn-info btn-block">Se connecter</button><br>
           </form>
         </div>
         <div class="col-3"></div>

@@ -17,6 +17,10 @@ form {
   padding-bottom: 5px;
 }
 
+.cartesProjets {
+  background-color: #B4AEFF !important;
+}
+
 #navigation {
   list-style-type: none;
   margin: 0;

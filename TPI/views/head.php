@@ -18,6 +18,7 @@
         <li id="titlenav"><a>Evaluation projets EE</a></li>
         <?php if(isset($_SESSION["log"])) { ?>
         <li class="pages"><a href="index.php?page=home">Home</a></li>
+        <li class="pages"><a href="index.php?page=projets">Projets</a></li>
         <li class="pages" style="float: right;"><a href="index.php?page=logout">Déconnexion</a></li>
         <?php } ?>
       </ul>
