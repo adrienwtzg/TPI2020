@@ -16,11 +16,22 @@ if ($page == "" || $page == "login") {
 elseif ($page == "inscription") {
   include 'views/inscription.php';
 }
-elseif ($page == "home") {
-  include 'views/home.php';
-}
 elseif ($page == "projets") {
-  include 'views/projets.php';
+if (isset($_SESSION["statut"])) {
+    switch ($_SESSION["statut"]) {
+      case 2:
+        include 'views/projetsGestion.php';
+        break;
+      case 3:
+        include 'views/projetsEleve.php';
+        break;
+
+      default:
+        // code...
+        break;
+    }
+  }
+  
 }
 elseif ($page == "logout") {
   header('Location: model/logout.php');

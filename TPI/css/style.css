@@ -2,7 +2,7 @@ html, body {
   background-color: #EAF5F5 !important;
 }
 
-form {
+.loginForm {
   background-color: #CED6D6 !important;
   padding: 20px;
   border-radius: 10px;

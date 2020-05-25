@@ -29,7 +29,7 @@ $query->bindParam(2, $dataLogin["nom"]);
       $_SESSION["prenom"] = $dataLogin["prenom"];
       $_SESSION["statut"] = $statut;
       print_r($_SESSION);
-      header('Location: ../index.php?page=home');
+      header('Location: ../index.php?page=projets');
     }
     else {
       $_SESSION["loginError"] = "<div class=\"alert alert-danger\" role=\"alert\">Les identifiants de connexion sont incorrects</div>";

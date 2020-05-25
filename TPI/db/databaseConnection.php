@@ -2,8 +2,8 @@
 //Informations d'authenfication à la base de données
 DEFINE('SERVER', '127.0.0.1');
 DEFINE('PORT', '');
-DEFINE('PSEUDO', 'tpi_evaluation');
-DEFINE('PWD', 'Super2020');
+DEFINE('PSEUDO', 'root');
+DEFINE('PWD', '');
 DEFINE('DB_NAME', 'tpi_evaluation');
 
 //Fonction de connexion à la base de données
