@@ -1,4 +1,7 @@
 <?php
+if (isset($_SESSION["log"])) {
+  header('Location: index.php?page=projets');
+}
 //Message d'erreur de connexion
 if (isset($_SESSION['loginError']))
 {
