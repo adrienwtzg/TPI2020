@@ -17,21 +17,28 @@ elseif ($page == "inscription") {
   include 'views/inscription.php';
 }
 elseif ($page == "projets") {
-if (isset($_SESSION["statut"])) {
-    switch ($_SESSION["statut"]) {
-      case 2:
-        include 'views/projetsGestion.php';
-        break;
-      case 3:
-        include 'views/projetsEleve.php';
-        break;
-
-      default:
-        // code...
-        break;
-    }
+  if (isset($_SESSION["statut"])) {
+      switch ($_SESSION["statut"]) {
+        case 2:
+          include 'views/projetsGestion.php';
+          break;
+        case 3:
+          include 'views/projetsEleve.php';
+          break;
+      }
   }
-  
+}
+elseif ($page == "projetDetail") {
+  if (isset($_SESSION["statut"])) {
+      switch ($_SESSION["statut"]) {
+        case 2:
+          include 'views/projetDetailGestion.php';
+          break;
+        case 3:
+          include 'views/projetDetailEleve.php';
+          break;
+      }
+  }
 }
 elseif ($page == "logout") {
   header('Location: model/logout.php');

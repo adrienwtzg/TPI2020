@@ -1,6 +1,8 @@
 <?php
+//Fonction de récupération des projets de l'enseignant
 include 'model/getProjets.php';
 
+//Redirige vers le login si l'utilisateur n'est pas authentifié
 if(!isset($_SESSION["log"])) {
   header('Location: index.php');
 }
@@ -8,10 +10,12 @@ if(!isset($_SESSION["log"])) {
 ?>
 <button type="button" class="btn btn-success" style=" margin: 20px;" data-toggle="modal" data-target="#modalAjoutProjets">Ajouter un projet</button>
 
-<div class="container">
+<div class="container" style="float:right;">
     <div class="row mt-3">
     <?php
+    //Affiche les projets un après l'autre
     foreach (GetProjets() as $projet) {
+      //Rogne la description sur la miniature pour n'afficher qu'une ligne
       if (strlen($projet["Description"]) > 32) {
         $projet["Description"] = substr($projet["Description"], 0, 30) . " ...";
       }
@@ -20,7 +24,10 @@ if(!isset($_SESSION["log"])) {
       echo "<h5 class=\"card-title\">".$projet["Titre"]."</h5>";
       echo "<h6 class=\"card-subtitle mb-2 text-muted\">".$projet["Client"]."</h6>";
       echo "<p class=\"card-text\">".$projet["Description"]."</p>";
-      echo "<button type=\"button\" class=\"btn btn-primary\">Aller à</button>";
+      echo "<form method=\"POST\" action=\"model/afficheDetailGestion.php\">";
+      echo "<button type=\"submit\" class=\"btn btn-primary\">Aller à</button>";
+      echo '<input type="hidden" name="idProjet" value="'.$projet["idProjet"].'"/>';
+      echo "</form>";
       echo "</div>";
       echo "</div>&nbsp;";
     } ?>
