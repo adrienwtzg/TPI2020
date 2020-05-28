@@ -3,10 +3,16 @@ include 'model/getProjetById.php';
 include 'model/getElevesProjet.php';
 include 'model/getEleveToAdd.php';
 
-//Message d'erreur de connexion
+//Récupeère l'id du projet détaillé
 if (isset($_SESSION['idProjet']))
 {
     $idProjet = $_SESSION['idProjet'];
+}
+//Message d'erreur du maximum d'élèves atteint
+if (isset($_SESSION['maxEleves']))
+{
+    echo $_SESSION['maxEleves'];
+    unset($_SESSION['maxEleves']);
 }
 
 if (!isset($idProjet)) {
@@ -37,9 +43,12 @@ if (empty(getElevesProjet($projet["idProjet"]))) {
 }
 else {
   foreach (getElevesProjet($projet["idProjet"]) as $eleve) {
-    echo "      <a href=\"#\" class=\"list-group-item list-group-item-action\">".$eleve["Prenom"]."  ".$eleve["Nom"]."<button title=\"Supprimer de ce projet\" class=\"cross btn\">&#10060;</button></a>";
+    echo "<form method=\"POST\" action=\"model/deleteEleveProjet.php\" style=\"display: flex;flex-flow: column;  height: 100%;  width: 100%;\">";
+    echo "<input type=\"hidden\" name=\"idEleve\" value=\"".$eleve["idUtilisateur"]."\">";
+    echo "<input type=\"hidden\" name=\"idProjet\" value=\"".$projet["idProjet"]."\">";
+    echo "      <a href=\"#\" style=\"padding-top: 20px;\"  onclick='this.parentNode.submit(); return false;' class=\"list-group-item list-group-item-action\">".$eleve["Prenom"]."  ".$eleve["Nom"]."<button title=\"Supprimer de ce projet\" class=\"cross btn\">&#10060;</button><span style=\"float: right;\" class=\"badge badge-pill badge-secondary\">Non évalué</span></a>";
+    echo "</form>";
   }
-
 }
 echo "     </div>";
 echo "   </div>";
