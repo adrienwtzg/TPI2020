@@ -25,7 +25,7 @@ echo "     <p class=\"card-text\"><em>Débute le ".$projet["DateDebut"]." et dur
 echo "   </div>";
  ?>
 
-</div><br><h3 style=\"text-align: center;\">Gestion du projet</h3>
+</div><br><h3 style="text-align: center;">Gestion du projet</h3>
  <div class="card">
   <div class="card-body">
     <h5 class="card-title" style="display: inline-block;">Elèves</h5>
@@ -37,7 +37,7 @@ if (empty(getElevesProjet($projet["idProjet"]))) {
 }
 else {
   foreach (getElevesProjet($projet["idProjet"]) as $eleve) {
-    echo "      <a href=\"#\" class=\"list-group-item list-group-item-action\">".$eleve["Prenom"]."  ".$eleve["Nom"]."</a>";
+    echo "      <a href=\"#\" class=\"list-group-item list-group-item-action\">".$eleve["Prenom"]."  ".$eleve["Nom"]."<button title=\"Supprimer de ce projet\" class=\"cross btn\">&#10060;</button></a>";
   }
 
 }
@@ -56,15 +56,18 @@ echo "   </div>";
          </button>
        </div>
        <div class="modal-body">
-         <p><em>Cliquez sur l'élève que vous voulez ajouter au projet<em></p>
-        <div class="list-group">
-          <select name="eleveToAdd">
-            <?php  foreach (getEleveToAdd($projet["idProjet"]) as $eleve) {
-              echo '<button type="submit" class="list-group-item list-group-item-action"><option value="'.$eleve["idUtilisateur"].'">'.$eleve["Prenom"].' '.$eleve["Nom"].'</option></button>';
-            }
-            ?>
-          </select>
-        </div>
+         <form action="model/addEleveToProjet.php" method="POST">
+           <div class="form-group">
+             <select class="form-control" name="idEleve">
+               <?php  foreach (getEleveToAdd($projet["idProjet"]) as $eleve) {
+                 echo '<option value="'.$eleve["idUtilisateur"].'">'.$eleve["Prenom"].' '.$eleve["Nom"].'</option>';
+               }
+               ?>
+             </select>
+           </div>
+           <input type="hidden" name="idProjet" value="<?php echo $projet["idProjet"]; ?>">
+          <button type="submit" class="btn btn-primary">Ajouter</button>
+        </form>
        </div>
        <div class="modal-footer">
          <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>

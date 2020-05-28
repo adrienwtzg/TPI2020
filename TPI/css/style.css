@@ -2,6 +2,13 @@ html, body {
   background-color: #EAF5F5 !important;
 }
 
+.cross:hover {
+  background-color: #6C787A !important;
+}
+
+.cross {
+  float: right;
+}
 
 .loginForm {
   background-color: #CED6D6 !important;
