@@ -6,8 +6,7 @@ function getEleveToAdd($idProjet){
   $db = connectDB();
 
   //Récupère les utilisateurs pouvant être ajouté au projet
-  $query = $db->prepare("SELECT * FROM utilisateurs WHERE Statut = 3 AND idUtilisateur NOT IN
-                       (SELECT idUtilisateur FROM travaille_pour LEFT JOIN utilisateurs ON idUtilisateur = idEleve WHERE idProjet = ?)");
+  $query = $db->prepare("SELECT * FROM utilisateurs WHERE statut = 3 AND idUtilisateur NOT IN (SELECT idUtilisateur FROM eleves WHERE eleves.idEleve IN (SELECT idEleve FROM travaille_pour WHERE travaille_pour.idProjet = 2))");
   $query->bindParam(1, $idProjet);
 
   if ($query->execute()) {
