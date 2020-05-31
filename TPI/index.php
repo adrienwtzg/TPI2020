@@ -43,6 +43,9 @@ elseif ($page == "projetDetail") {
 elseif ($page == "logout") {
   header('Location: model/logout.php');
 }
+else {
+  include 'views/error.php';
+}
 
 
 ?>

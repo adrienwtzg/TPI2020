@@ -25,7 +25,7 @@ if ($_SESSION["statut"] == 2) {
     $query->bindParam(1, $dataProjet["idProjet"]);
     $query->execute();
   }
-
+  header("Location: ../index.php?page=projets");
 
 
 }

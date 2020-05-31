@@ -6,7 +6,7 @@ function GetProjets()
   //Connexion à la base données
   $db = connectDB();
 
-  $query = $db->prepare("SELECT * FROM projets WHERE idUtilisateur   = ?");
+  $query = $db->prepare("SELECT * FROM projets WHERE idUtilisateur = ?");
   $query->bindParam(1, $_SESSION["id"]);
 
   if ($query->execute()) {

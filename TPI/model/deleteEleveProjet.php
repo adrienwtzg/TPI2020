@@ -5,10 +5,11 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 require_once('../db/databaseConnection.php');
+include 'getEleveByUtilisateur.php';
 
 //Vérifie que les entrées sont correctement syntaxé
 $dataEleveProjet = filter_input_array(INPUT_POST, [
-    "idEleve" => FILTER_SANITIZE_STRING,
+    "idUtilisateur" => FILTER_SANITIZE_STRING,
     "idProjet" => FILTER_SANITIZE_STRING
 ]);
 
@@ -19,10 +20,10 @@ $dataEleveProjet = filter_input_array(INPUT_POST, [
 if ($_SESSION["statut"] == 2) {
   //Connexion à la base données
   $db = connectDB();
-
+  $idEleve = getEleveByUtilisateur($dataEleveProjet["idUtilisateur"])[0]["idEleve"];
   $query = $db->prepare("DELETE FROM `travaille_pour` WHERE idProjet = ? AND idEleve = ?");
   $query->bindParam(1, $dataEleveProjet["idProjet"]);
-  $query->bindParam(2, $dataEleveProjet["idEleve"]);
+  $query->bindParam(2, $idEleve);
 
   if ($query->execute()) {
     header('Location: ../index.php?page=projetDetail');

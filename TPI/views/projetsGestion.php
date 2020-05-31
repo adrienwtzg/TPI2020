@@ -1,6 +1,7 @@
 <?php
 //Fonction de récupération des projets de l'enseignant
 include 'model/getProjets.php';
+include 'model/getDomaines.php';
 
 //Redirige vers le login si l'utilisateur n'est pas authentifié
 if(!isset($_SESSION["log"])) {
@@ -17,7 +18,7 @@ if(!isset($_SESSION["log"])) {
     foreach (GetProjets() as $projet) {
       //Rogne la description sur la miniature pour n'afficher qu'une ligne
       if (strlen($projet["description"]) > 32) {
-        $projet["descritption"] = substr($projet["description"], 0, 30) . " ...";
+        $projet["description"] = substr($projet["description"], 0, 30) . " ...";
       }
       echo "<div class=\"card card-custom mx-2 mb-3\" style=\"width: 18rem;\">";
       echo "<div class=\"card-body\">";
@@ -62,6 +63,14 @@ if(!isset($_SESSION["log"])) {
           <div class="form-group">
               <label for="">Date début</label>
              <input class="form-control" type="date" name="DateDebut">
+          </div>
+          <div class="form-group">
+            <select class="form-control" name="idDomaine">
+              <?php  foreach (getDomaines() as $domaine) {
+                echo "<option value=\"".$domaine["idDomaine"]."\">".$domaine["domaine"]."</option>";
+              }
+              ?>
+            </select>
           </div>
       </div>
       <div class="modal-footer">
