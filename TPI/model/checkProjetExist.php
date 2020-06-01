@@ -1,5 +1,4 @@
 <?php
-require_once('db/databaseConnection.php');
 
 function checkProjetExist($idProjet) {
   $db = connectDB();

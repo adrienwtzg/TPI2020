@@ -1,6 +1,6 @@
 <?php
-require_once('../db/databaseConnection.php');
 include 'getCritereIdByName.php';
+include '../db/databaseConnection.php';
 
 //Vérifie que les entrées sont correctement syntaxé
 $dataCritere = filter_input_array(INPUT_POST, [

@@ -4,6 +4,9 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
+
+include '/db/databaseConnection.php';
+
 //En-tête de page
 include 'views/head.php';
 

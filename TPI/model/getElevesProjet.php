@@ -1,5 +1,4 @@
 <?php
-require_once('db/databaseConnection.php');
 
 function getElevesProjet($idProjet){
   //Connexion à la base données

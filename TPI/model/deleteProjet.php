@@ -4,7 +4,7 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once('../db/databaseConnection.php');
+include '../db/databaseConnection.php';
 
 //Vérifie que les entrées sont correctement syntaxé
 $dataProjet = filter_input_array(INPUT_POST, [

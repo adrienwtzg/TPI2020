@@ -4,8 +4,8 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once('../db/databaseConnection.php');
 include 'getEleveByUtilisateur.php';
+include '../db/databaseConnection.php';
 
 //Nombre d'élèves maximum
 define("NB_ELEVES", 4);

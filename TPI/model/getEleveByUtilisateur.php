@@ -1,5 +1,4 @@
 <?php
-require_once('../db/databaseConnection.php');
 
 function getEleveByUtilisateur($idUtilisateur) {
   $db = connectDB();

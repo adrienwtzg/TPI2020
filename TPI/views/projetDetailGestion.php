@@ -5,6 +5,19 @@
   include 'model/checkProjetExist.php';
   include 'model/getCategoriesCriteres.php';
   include 'model/getCriteresByCategories.php';
+  include 'model/getCriteresToAdd.php';
+  include 'model/deleteEleveProjet.php';
+
+if (isset($_POST['action'])) {
+  if ($_POST['action'] == 'evaluer') {
+      //action for update here
+  } else if ($_POST['action'] == 'supprimer') {
+      deleteEleveProjet($_POST['idUtilisateur'], $_POST['idProjet']);
+  } else {
+      //invalid action!
+  }
+}
+
 
   //Récupère l'id du projet détaillé
   if (isset($_SESSION['idProjet']))
@@ -55,10 +68,10 @@
   }
   else {
     foreach (getElevesProjet($projet["idProjet"]) as $eleve) {
-      echo "<form method=\"POST\" action=\"model/deleteEleveProjet.php\" style=\"display: flex;flex-flow: column;  height: 100%;  width: 100%;\">";
+      echo "<form method=\"POST\" action=\"index.php?page=projetDetail\" style=\"display: flex;flex-flow: column;  height: 100%;  width: 100%;\">";
       echo "<input type=\"hidden\" name=\"idUtilisateur\" value=\"".$eleve["idUtilisateur"]."\">";
       echo "<input type=\"hidden\" name=\"idProjet\" value=\"".$projet["idProjet"]."\">";
-      echo "      <a href=\"#\" style=\"padding-top: 20px;\"  onclick='this.parentNode.submit(); return false;' class=\"list-group-item list-group-item-action\">".$eleve["prenom"]."  ".$eleve["nom"]."<button title=\"Supprimer de ce projet\" class=\"cross btn\">&#10060;</button><button style=\"float: right;\" class=\"btn btn-success\">Evaluer</button><p class=\"text-danger\">Non évalué</p></a>";
+      echo "      <a href=\"#\" style=\"padding-top: 20px;\" class=\"list-group-item list-group-item-action\">".$eleve["prenom"]."  ".$eleve["nom"]."<button title=\"Supprimer de ce projet\" name=\"action\" value=\"supprimer\" class=\"cross btn\">&#10060;</button><button style=\"float: right;\" type=\"submit\" name=\"action\" value=\"evaluer\" class=\"btn btn-success\">Evaluer</button><p class=\"text-danger\">Non évalué</p></a>";
       echo "</form>";
     }
   }
@@ -69,7 +82,7 @@
   <div class="card">
    <div class="card-body">
      <h5 class="card-title" style="display: inline-block;">Critères</h5>
-     <button type="button" class="btn btn-link" style="float: right;" data-toggle="modal" data-target="#modalAjoutCritere">Ajouter un  nouveau critère</button>
+     <button type="button" class="btn btn-link" style="float: right;" data-toggle="modal" data-target="#modalAjoutCritere">Ajouter un  nouveau critère</buttondelete>
      <button type="button" class="btn btn-link" style="float: right;" data-toggle="modal" data-target="#modalAjoutCritereExistant">Ajouter un critère existant</button><br><br>
      <div class="container">
        <?php foreach (getCategoriesCriteres() as $categorie) {
@@ -223,6 +236,7 @@
      </div>
    </div>
 
+   <!-- Modal d'ajout d'un critère existant -->
    <div class="modal fade" id="modalAjoutCritereExistant" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
      <div class="modal-dialog" role="document">
        <div class="modal-content">
@@ -233,18 +247,20 @@
            </button>
          </div>
          <div class="modal-body">
-           <form action="model/addEleveToProjet.php" method="POST">
+           <form action="model/addCritereToProjet.php" method="POST">
              <div class="form-group">
-               <div class="list-group">
-                 <div class="form-check">
-                    <input class="form-check-input" style="margin-top: 37px;" type="checkbox" value="" id="defaultCheck1">
-                      <li class="list-group-item"> <small style="float: right;">10</small><h6>Demande de l'aide</h6> <p>Ceci est la description du projet<p></li>
-                  </div>
-                  <div class="form-check">
-                     <input class="form-check-input" style="margin-top: 37px;" type="checkbox" value="" id="defaultCheck1">
-                       <li class="list-group-item"> <small style="float: right;">10</small><h6>Demande de l'aide</h6> <p>Ceci est la description du projet<p></li>
-                   </div>
-               </div>
+               <?php foreach (getCategoriesCriteres() as $categorie) {
+                 echo "<h5>".$categorie["categorie"]."</h5><br>";
+                 echo "<div class=\"list-group\">";
+                 foreach (getCriteresToAdd($idProjet, $categorie["idCategorie"]) as $critere) {
+                   echo " <div class=\"form-check\">";
+                   echo "  <input class=\"form-check-input\" style=\"margin-top: 37px;\" type=\"checkbox\" value=\"".$critere["idCritere"]."\" name=\"idCritere[]\">";
+                   echo "  <li class=\"list-group-item\"><small style=\"float: right;\">".$critere["pointsMax"]."</small><h6>".$critere["critere"]."</h6> <p>".$critere["definition"]."<p></li>";
+                   echo " </div>";
+                 }
+                 echo "</div>";
+                 echo "<br><br>";
+               } ?>
              </div>
              <input type="hidden" name="idProjet" value="<?php echo $projet["idProjet"]; ?>">
             <button type="submit" class="btn btn-primary">Ajouter</button>

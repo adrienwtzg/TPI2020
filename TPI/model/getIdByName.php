@@ -1,5 +1,4 @@
 <?php
-require_once('../db/databaseConnection.php');
 
 function GetIdByName($prenom, $nom){
   //Connexion à la base données

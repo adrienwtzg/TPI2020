@@ -1,5 +1,4 @@
 <?php
-require_once('/db/databaseConnection.php');
 
 function getCriteresByCategories($idCategorie, $idProjet) {
   $db = connectDB();
