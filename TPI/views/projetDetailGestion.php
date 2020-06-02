@@ -7,17 +7,19 @@
   include 'model/getCriteresByCategories.php';
   include 'model/getCriteresToAdd.php';
   include 'model/deleteEleveProjet.php';
+  include 'model/estEvalue.php';
 
 if (isset($_POST['action'])) {
   if ($_POST['action'] == 'evaluer') {
-      //action for update here
+      $_SESSION['idProjetEvaluer'] = $_POST['idProjet'];
+      $_SESSION['idUtilisateurEvaluer'] = $_POST['idUtilisateur'];
+      header('Location: index.php?page=projetEvaluation');
   } else if ($_POST['action'] == 'supprimer') {
       deleteEleveProjet($_POST['idUtilisateur'], $_POST['idProjet']);
   } else {
       //invalid action!
   }
 }
-
 
   //Récupère l'id du projet détaillé
   if (isset($_SESSION['idProjet']))
@@ -39,7 +41,6 @@ if (isset($_POST['action'])) {
       echo $_SESSION['maxEleves'];
       unset($_SESSION['maxEleves']);
   }
-
 
   $projet = getProjetById($idProjet);
 
@@ -71,7 +72,14 @@ if (isset($_POST['action'])) {
       echo "<form method=\"POST\" action=\"index.php?page=projetDetail\" style=\"display: flex;flex-flow: column;  height: 100%;  width: 100%;\">";
       echo "<input type=\"hidden\" name=\"idUtilisateur\" value=\"".$eleve["idUtilisateur"]."\">";
       echo "<input type=\"hidden\" name=\"idProjet\" value=\"".$projet["idProjet"]."\">";
-      echo "      <a href=\"#\" style=\"padding-top: 20px;\" class=\"list-group-item list-group-item-action\">".$eleve["prenom"]."  ".$eleve["nom"]."<button title=\"Supprimer de ce projet\" name=\"action\" value=\"supprimer\" class=\"cross btn\">&#10060;</button><button style=\"float: right;\" type=\"submit\" name=\"action\" value=\"evaluer\" class=\"btn btn-success\">Evaluer</button><p class=\"text-danger\">Non évalué</p></a>";
+      echo "      <a href=\"#\" style=\"padding-top: 20px;\" class=\"list-group-item list-group-item-action\">".$eleve["prenom"]."  ".$eleve["nom"]."<button title=\"Supprimer de ce projet\" name=\"action\" value=\"supprimer\" class=\"cross btn\">&#10060;</button>";
+      if (!estEvalue($eleve["idEleve"], $idProjet)) {
+        echo "<button style=\"float: right;\" type=\"submit\" name=\"action\" value=\"evaluer\" class=\"btn btn-success\">Evaluer</button><p class=\"text-danger\">Non évalué</p>   </a>";
+      }
+      else {
+        echo "<button style=\"float: right;\" type=\"submit\" name=\"action\" value=\"evaluer\" class=\"btn btn-primary\">Voir évaluation</button><p class=\"text-success\">Evalué</p>   </a>";
+      }
+
       echo "</form>";
     }
   }
@@ -91,17 +99,14 @@ if (isset($_POST['action'])) {
          if (!empty(getCriteresByCategories($categorie["idCategorie"], $idProjet))) {
            echo "<ul class=\"list-group\">";
            foreach (getCriteresByCategories($categorie["idCategorie"], $idProjet) as $critere) {
-             echo "<li class=\"list-group-item\"> <small style=\"float: right;\">".$critere["pointsMax"]." points maximum</small><h6>".$critere["critere"]."</h6> <p>".$critere["definition"]."<p></li>";
+             echo "<li class=\"list-group-item\"> <small style=\"float: right;\">/ ".$critere["pointsMax"]." pt.</small><h6>".$critere["critere"]."</h6> <p>".$critere["definition"]."<p></li>";
            }
            echo "</ul><br><br>";
          }
          else {
            echo "<div class=\"alert alert-secondary\" role=\"alert\">Aucun critères ajoutés pour l'instant</div>";
          }
-
-
        } ?>
-
      </div>
    </div>
  </div>

@@ -3,8 +3,6 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-
-
 include '/db/databaseConnection.php';
 
 //En-tête de page
@@ -41,6 +39,13 @@ elseif ($page == "projetDetail") {
           include 'views/projetDetailEleve.php';
           break;
       }
+  }
+}
+elseif ($page == "projetEvaluation") {
+  if (isset($_SESSION["statut"])) {
+    if ($_SESSION["statut"] == 2) {
+      include 'views/projetEvaluation.php';
+    }
   }
 }
 elseif ($page == "logout") {
