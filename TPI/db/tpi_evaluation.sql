@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  lun. 01 juin 2020 à 21:06
+-- Généré le :  mer. 03 juin 2020 à 09:02
 -- Version du serveur :  5.7.17
 -- Version de PHP :  5.6.30
 
@@ -65,7 +65,7 @@ INSERT INTO `criteres` (`idCritere`, `critere`, `definition`, `pointsMax`, `idCa
 (1, 'Organisation quotidienne', 'L\'élève s\'organise quotidiennement', 10, 3),
 (2, 'Attitude pendant les rendez-vous', 'L\'élève reste attentif, concentré, et s\'intéresse aux propositions du client.', 7, 2),
 (3, 'Indépendance', 'L\'élève est indépendant et auto-didacte dans son travail', 10, 1),
-(9, 'Demande de l&#39;aide', 'Demande de l&#39;aide à un camarade ou un professeur avec des questions pertinentes et réflechies.', 4, 1),
+(9, 'Demande de l\'aide', 'Demande de l&#39;aide à un camarade ou un professeur avec des questions pertinentes et réflechies.', 4, 1),
 (10, 'Travail pendant les heures', 'L\'élève travaille pendant le temps alloué au travail.', 5, 2);
 
 -- --------------------------------------------------------
@@ -93,6 +93,7 @@ INSERT INTO `criteres_projets` (`idProjet`, `idCritere`) VALUES
 (3, 10),
 (11, 1),
 (11, 3),
+(11, 10),
 (16, 1),
 (16, 2),
 (16, 3),
@@ -153,12 +154,31 @@ CREATE TABLE `evaluations` (
   `idEvaluation` int(11) NOT NULL,
   `observation` varchar(500) NOT NULL,
   `date` date NOT NULL,
-  `commentaires` varchar(500) NOT NULL,
   `pointsObtenus` varchar(20) NOT NULL,
   `idEleve` int(11) NOT NULL,
   `idProjet` int(11) NOT NULL,
   `idCritere` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `evaluations`
+--
+
+INSERT INTO `evaluations` (`idEvaluation`, `observation`, `date`, `pointsObtenus`, `idEleve`, `idProjet`, `idCritere`) VALUES
+(10, 'Bravo', '2020-06-02', '10', 1, 2, 1),
+(9, 'asd', '2020-06-02', '7', 1, 2, 2),
+(8, 'sda', '2020-06-02', '4', 1, 2, 9),
+(7, 'aaa', '2020-06-02', '10', 1, 2, 3),
+(11, 'asdasd', '2020-06-02', '0', 2, 2, 3),
+(12, 'asd', '2020-06-02', '0', 2, 2, 9),
+(13, 'sdsd', '2020-06-02', '0', 2, 2, 2),
+(14, 'df', '2020-06-02', '0', 2, 2, 1),
+(15, '', '2020-06-02', '4', 4, 3, 2),
+(16, '', '2020-06-02', '3', 4, 3, 10),
+(17, '', '2020-06-02', '6', 4, 3, 1),
+(18, 'Pas vraiment...', '2020-06-02', '5', 1, 3, 2),
+(19, 'Souvent perturbé.', '2020-06-02', '3', 1, 3, 10),
+(20, 'Aucune organisation', '2020-06-02', '2', 1, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -196,21 +216,23 @@ INSERT INTO `projets` (`idProjet`, `titre`, `description`, `client`, `dureePrevu
 
 CREATE TABLE `travaille_pour` (
   `idProjet` int(11) NOT NULL,
-  `idEleve` int(11) NOT NULL
+  `idEleve` int(11) NOT NULL,
+  `estEvalue` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `travaille_pour`
 --
 
-INSERT INTO `travaille_pour` (`idProjet`, `idEleve`) VALUES
-(2, 1),
-(2, 2),
-(3, 1),
-(3, 2),
-(3, 4),
-(11, 4),
-(16, 1);
+INSERT INTO `travaille_pour` (`idProjet`, `idEleve`, `estEvalue`) VALUES
+(2, 2, 1),
+(2, 1, 1),
+(3, 4, 1),
+(3, 2, 0),
+(16, 1, 0),
+(3, 1, 1),
+(11, 4, 0),
+(16, 4, 0);
 
 -- --------------------------------------------------------
 
@@ -326,7 +348,7 @@ ALTER TABLE `eleves`
 -- AUTO_INCREMENT pour la table `evaluations`
 --
 ALTER TABLE `evaluations`
-  MODIFY `idEvaluation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idEvaluation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT pour la table `projets`
 --

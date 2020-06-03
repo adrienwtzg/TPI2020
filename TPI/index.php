@@ -48,6 +48,13 @@ elseif ($page == "projetEvaluation") {
     }
   }
 }
+elseif ($page == "voirEvaluation") {
+  if (isset($_SESSION["statut"])) {
+    if ($_SESSION["statut"] == 2) {
+      include 'views/voirEvaluation.php';
+    }
+  }
+}
 elseif ($page == "logout") {
   header('Location: model/logout.php');
 }

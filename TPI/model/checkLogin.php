@@ -1,5 +1,6 @@
 <?php
 require_once('getIdByName.php');
+include '../db/databaseConnection.php';
 //Démarre la session si ça n'est pas déja fait
 if (session_status() == PHP_SESSION_NONE) {
     session_start();

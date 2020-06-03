@@ -4,7 +4,7 @@ include 'model/getCriteresByCategories.php';
 include 'model/getEleveByUtilisateur.php';
 include 'model/getInfoEleve.php';
 
-$idProjet = $_SESSION["idProjet"];
+$idProjet = $_SESSION["idProjetEvaluer"];
 $idUtilisateur = $_SESSION["idUtilisateurEvaluer"];
 $idEleve = getEleveByUtilisateur($idUtilisateur)[0]["idEleve"];
 $infoEleve = getInfoEleve($idEleve);

@@ -8,6 +8,7 @@
   include 'model/getCriteresToAdd.php';
   include 'model/deleteEleveProjet.php';
   include 'model/estEvalue.php';
+  include 'model/getNote.php';
 
 if (isset($_POST['action'])) {
   if ($_POST['action'] == 'evaluer') {
@@ -16,8 +17,13 @@ if (isset($_POST['action'])) {
       header('Location: index.php?page=projetEvaluation');
   } else if ($_POST['action'] == 'supprimer') {
       deleteEleveProjet($_POST['idUtilisateur'], $_POST['idProjet']);
-  } else {
-      //invalid action!
+  } else if ($_POST['action'] == 'voirEvaluation') {
+    $_SESSION['idProjetEvaluer'] = $_POST['idProjet'];
+    $_SESSION['idUtilisateurEvaluer'] = $_POST['idUtilisateur'];
+    header('Location: index.php?page=voirEvaluation');
+  }
+  else {
+    //invalid action!
   }
 }
 
@@ -77,7 +83,7 @@ if (isset($_POST['action'])) {
         echo "<button style=\"float: right;\" type=\"submit\" name=\"action\" value=\"evaluer\" class=\"btn btn-success\">Evaluer</button><p class=\"text-danger\">Non évalué</p>   </a>";
       }
       else {
-        echo "<button style=\"float: right;\" type=\"submit\" name=\"action\" value=\"evaluer\" class=\"btn btn-primary\">Voir évaluation</button><p class=\"text-success\">Evalué</p>   </a>";
+        echo "<button style=\"float: right;\" type=\"submit\" name=\"action\" value=\"voirEvaluation\" class=\"btn btn-primary\">Voir évaluation</button><button class=\"btn btn-outline-dark\" style=\"float: right; margin-right: 10px;\" disabled>Note: ".getNote($eleve["idEleve"], $idProjet)."</button><p class=\"text-success\">Evalué</p>   </a>";
       }
 
       echo "</form>";
