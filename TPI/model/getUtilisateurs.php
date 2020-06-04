@@ -1,11 +1,10 @@
 <?php
-function GetProjets()
+function getUtilisateurs()
 {
   //Connexion à la base données
   $db = connectDB();
 
-  $query = $db->prepare("SELECT * FROM projets WHERE idUtilisateur = ?");
-  $query->bindParam(1, $_SESSION["id"]);
+  $query = $db->prepare("SELECT * FROM utilisateurs ORDER BY statut ASC");
 
   if ($query->execute()) {
     $tab = $query->fetchAll(PDO::FETCH_ASSOC);

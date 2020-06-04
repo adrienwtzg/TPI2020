@@ -40,9 +40,34 @@ $infoEleve = getInfoEleve($idEleve);
            }
 
          ?>
-         <button type="submit" style="float: right;" class="btn btn-danger" name="button">Supprimer l'évaluation</button>
+         <button style="float: right;" class="btn btn-danger" data-toggle="modal" data-target="#modalDeleteEvaluation">Supprimer l'évaluation</button>
          <h6>Total des points <b style="border: 1px solid black; padding: 5px;"><?php echo $pointsObtenus." / ".$pointsTotal; ?></b></h6>
          <h4>Note <b style="border: 1px solid black; padding-right: 10px;padding-left: 10px;"><?php echo getNote($idEleve, $idProjet); ?></b></h4>
+     </div>
+   </div>
+ </div>
+
+ <!-- Modal de suppression de l'évaluation-->
+ <div class="modal fade" id="modalDeleteEvaluation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h5 class="modal-title" id="exampleModalLabel">Voulez-vous vraiment supprimer cette évaluation ?</h5>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+         </button>
+       </div>
+       <div class="modal-body">
+        <p>Une fois supprimé l'évaluation ne sera plus récupérable.</p>
+       </div>
+       <div class="modal-footer">
+         <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+         <form action="model/deleteEvaluation.php" method="POST">
+           <input type="hidden" name="idProjet" value="<?php echo $idProjet; ?>">
+           <input type="hidden" name="idEleve" value="<?php echo $idEleve; ?>">
+           <button type="submit" class="btn btn-primary">Supprimer</button>
+         </form>
+       </div>
      </div>
    </div>
  </div>

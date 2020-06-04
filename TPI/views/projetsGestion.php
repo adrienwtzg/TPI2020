@@ -60,15 +60,14 @@ if(!isset($_SESSION["log"])) {
             <label for="duree">Durée du projet</label>
             <div class="form-check-inline">
               <label class="form-check-label">
-                <input type="radio" class="form-check-input" name="DureePrevue">1/2 année
+                <input type="radio" class="form-check-input" value="1" name="DureePrevue">1 semestre
               </label>
             </div>
             <div class="form-check-inline">
               <label class="form-check-label">
-                <input type="radio" class="form-check-input" name="DureePrevue">1 année
+                <input type="radio" class="form-check-input" value="2" name="DureePrevue">2 semestres
               </label>
             </div>
-            <input type="number" min="0.5" max="2" step="0.5" value="0" class="form-control" name="DureePrevue" style="width: 200px;">
           </div>
           <div class="form-group">
               <label for="">Date début</label>

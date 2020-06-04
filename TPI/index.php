@@ -14,9 +14,6 @@ $page = (isset($_GET["page"]) ? $_GET["page"] : "");
 if ($page == "" || $page == "login") {
   include 'views/login.php';
 }
-elseif ($page == "inscription") {
-  include 'views/inscription.php';
-}
 elseif ($page == "projets") {
   if (isset($_SESSION["statut"])) {
       switch ($_SESSION["statut"]) {
@@ -25,6 +22,9 @@ elseif ($page == "projets") {
           break;
         case 3:
           include 'views/projetsEleve.php';
+          break;
+        case 1:
+          include 'views/admin.php';
           break;
       }
   }
@@ -54,6 +54,24 @@ elseif ($page == "voirEvaluation") {
       include 'views/voirEvaluation.php';
     }
   }
+}
+elseif ($page == "criteres") {
+  if (isset($_SESSION["statut"])) {
+      switch ($_SESSION["statut"]) {
+        case 1:
+          include 'views/gestionCriteres.php';
+          break;
+        case 2:
+          include 'views/gestionCriteres.php';
+          break;
+        case 3:
+          include 'views/error.php';
+          break;
+      }
+  }
+}
+elseif ($page == "profil") {
+  include 'views/profil.php';
 }
 elseif ($page == "logout") {
   header('Location: model/logout.php');

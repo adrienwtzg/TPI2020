@@ -9,6 +9,9 @@
   include 'model/deleteEleveProjet.php';
   include 'model/estEvalue.php';
   include 'model/getNote.php';
+  include 'model/getDomaines.php';
+  include 'model/getDomaineById.php';
+  include 'model/deleteCritereProjet.php';
 
 if (isset($_POST['action'])) {
   if ($_POST['action'] == 'evaluer') {
@@ -21,6 +24,9 @@ if (isset($_POST['action'])) {
     $_SESSION['idProjetEvaluer'] = $_POST['idProjet'];
     $_SESSION['idUtilisateurEvaluer'] = $_POST['idUtilisateur'];
     header('Location: index.php?page=voirEvaluation');
+  }
+  else if ($_POST['action'] == 'enlever') {
+    deleteCritereProjet($_POST['idProjet'], $_POST['idCritere']);
   }
   else {
     //invalid action!
@@ -54,7 +60,7 @@ if (isset($_POST['action'])) {
   echo "  <div class=\"card\">";
   echo "   <div class=\"card-body\">";
   echo "     <h5 class=\"card-title\" style=\"display: inline-block;\">".$projet["titre"]."</h5>";
-  echo "     <button type=\"button\" title=\"Domaine du projet\" style=\"float: right;\" class=\"btn btn-outline-primary\" disabled>Web</button>";
+  echo "     <button type=\"button\" title=\"Domaine du projet\" style=\"float: right;\" class=\"btn btn-outline-primary\" disabled>".getDomaineById($projet["idDomaine"])["domaine"]."</button>";
   echo "     <p class=\"card-text\"><small class=\"text-muted\">".$projet["client"]."</small></p>";
   echo "     <p class=\"card-text\">".$projet["description"]."</p>";
   echo "     <p class=\"card-text\"><em>Débute le ".$projet["dateDebut"]." et dure ".$projet["dureePrevue"]." semestre(s)</em></p>";
@@ -78,11 +84,12 @@ if (isset($_POST['action'])) {
       echo "<form method=\"POST\" action=\"index.php?page=projetDetail\" style=\"display: flex;flex-flow: column;  height: 100%;  width: 100%;\">";
       echo "<input type=\"hidden\" name=\"idUtilisateur\" value=\"".$eleve["idUtilisateur"]."\">";
       echo "<input type=\"hidden\" name=\"idProjet\" value=\"".$projet["idProjet"]."\">";
-      echo "      <a href=\"#\" style=\"padding-top: 20px;\" class=\"list-group-item list-group-item-action\">".$eleve["prenom"]."  ".$eleve["nom"]."<button title=\"Supprimer de ce projet\" name=\"action\" value=\"supprimer\" class=\"cross btn\">&#10060;</button>";
+      echo "      <a href=\"#\" style=\"padding-top: 20px;\" class=\"list-group-item list-group-item-action\">".$eleve["prenom"]."  ".$eleve["nom"]."";
       if (!estEvalue($eleve["idEleve"], $idProjet)) {
-        echo "<button style=\"float: right;\" type=\"submit\" name=\"action\" value=\"evaluer\" class=\"btn btn-success\">Evaluer</button><p class=\"text-danger\">Non évalué</p>   </a>";
+        echo "<button title=\"Supprimer de ce projet\" name=\"action\" value=\"supprimer\" class=\"cross btn\">&#10060;</button><button style=\"float: right;\" type=\"submit\" name=\"action\" value=\"evaluer\" class=\"btn btn-success\">Evaluer</button><p class=\"text-danger\">Non évalué</p>   </a>";
       }
       else {
+        $critereBloque = true;
         echo "<button style=\"float: right;\" type=\"submit\" name=\"action\" value=\"voirEvaluation\" class=\"btn btn-primary\">Voir évaluation</button><button class=\"btn btn-outline-dark\" style=\"float: right; margin-right: 10px;\" disabled>Note: ".getNote($eleve["idEleve"], $idProjet)."</button><p class=\"text-success\">Evalué</p>   </a>";
       }
 
@@ -96,8 +103,11 @@ if (isset($_POST['action'])) {
   <div class="card">
    <div class="card-body">
      <h5 class="card-title" style="display: inline-block;">Critères</h5>
-     <button type="button" class="btn btn-link" style="float: right;" data-toggle="modal" data-target="#modalAjoutCritere">Ajouter un  nouveau critère</buttondelete>
-     <button type="button" class="btn btn-link" style="float: right;" data-toggle="modal" data-target="#modalAjoutCritereExistant">Ajouter un critère existant</button><br><br>
+     <?php
+      if (!isset($critereBloque)) {
+        echo '<button type="button" class="btn btn-link" style="float: right;" data-toggle="modal" data-target="#modalAjoutCritereExistant">Ajouter un critère existant</button><br><br>';
+      }
+     ?>
      <div class="container">
        <?php foreach (getCategoriesCriteres() as $categorie) {
          echo "<h5>".$categorie["categorie"]."</h5>";
@@ -105,7 +115,14 @@ if (isset($_POST['action'])) {
          if (!empty(getCriteresByCategories($categorie["idCategorie"], $idProjet))) {
            echo "<ul class=\"list-group\">";
            foreach (getCriteresByCategories($categorie["idCategorie"], $idProjet) as $critere) {
-             echo "<li class=\"list-group-item\"> <small style=\"float: right;\">/ ".$critere["pointsMax"]." pt.</small><h6>".$critere["critere"]."</h6> <p>".$critere["definition"]."<p></li>";
+             echo '';
+             if (!isset($critereBloque)) {
+               $critereBouton = "<form action=\"#\" method=\"POST\"><input type=\"hidden\" name=\"idCritere\" value=\"".$critere["idCritere"]."\"><input type=\"hidden\" name=\"idProjet\" value=\"".$projet["idProjet"]."\"><button style=\"float: right;\" title=\"Supprimer de ce projet\" name=\"action\" value=\"enlever\" class=\"cross btn\">&#10060;</button></form>";
+             }
+             else {
+               $critereBouton = "";
+             }
+             echo "<li class=\"list-group-item\"> <small style=\"float: right;\">/ ".$critere["pointsMax"]." pt.</small><h6>".$critere["critere"]."</h6> <p style=\"margin-bottom: 0px;\">".$critere["definition"]."<p>".$critereBouton."</li>";
            }
            echo "</ul><br><br>";
          }
@@ -176,112 +193,117 @@ if (isset($_POST['action'])) {
    <div class="modal fade" id="modalAlterProjet" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
      <div class="modal-dialog" role="document">
        <div class="modal-content">
-         <div class="modal-header">
-           <h5 class="modal-title" id="exampleModalLabel"><?php echo $projet["titre"]; ?></h5>
-           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-             <span aria-hidden="true">&times;</span>
-           </button>
-         </div>
-         <div class="modal-body">
-          <div class="form-group">
-            <label for="">Titre</label>
-            <input class="form-control" type="text" name="Titre" value="<?php echo $projet["titre"]; ?>">
-          </div>
-          <div class="form-group">
-            <label for="">Description</label>
-            <textarea class="form-control" name="Description" rows="3"><?php echo $projet["description"]; ?></textarea>
-          </div>
-          <div class="form-group">
-            <label for="">Client</label>
-            <input class="form-control" type="text" name="Client" value="<?php echo $projet["client"]; ?>">
-          </div>
-          <div class="form-group">
-
-          </div>
-         </div>
-         <div class="modal-footer">
-           <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-
-         </div>
-       </div>
-     </div>
-   </div>
-
-   <!-- Modal d'ajout de critères -->
-   <div class="modal fade" id="modalAjoutCritere" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-     <div class="modal-dialog" role="document">
-       <div class="modal-content">
-         <div class="modal-header">
-           <h5 class="modal-title" id="exampleModalLabel">Ajouter un nouveau critère à <?php echo $projet["titre"]; ?> </h5>
-           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-             <span aria-hidden="true">&times;</span>
-           </button>
-         </div>
-         <div class="modal-body">
-           <form action="model/addNewCritere.php" method="POST">
-             <div class="form-group">
-               <input type="text" class="form-control" name="critere" placeholder="Nom du critère">
-             </div>
-             <div class="form-group">
-               <textarea rows="3" class="form-control" name="definition" placeholder="Définition du critère"></textarea>
-             </div>
-             <div class="form-group">
-               <input type="number" class="form-control" name="pointsMax" placeholder="Points maximum">
-             </div>
-             <div class="form-group">
-               <label for="categorie">Catégorie du critère</label>
-               <select class="form-control" name="idCategorie">
-                 <?php foreach (getCategoriesCriteres() as $categorie) {
-                   echo "<option value=\"".$categorie["idCategorie"]."\">".$categorie["categorie"]."</option>";
-                 }?>
-               </select>
-             </div>
-             <input type="hidden" name="idProjet" value="<?php echo $projet["idProjet"]; ?>">
-            <button type="submit" class="btn btn-primary">Ajouter</button>
-          </form>
-         </div>
-         <div class="modal-footer">
-           <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-         </div>
-       </div>
-     </div>
-   </div>
-
-   <!-- Modal d'ajout d'un critère existant -->
-   <div class="modal fade" id="modalAjoutCritereExistant" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-     <div class="modal-dialog" role="document">
-       <div class="modal-content">
-         <div class="modal-header">
-           <h5 class="modal-title" id="exampleModalLabel">Ajouter des élèves à <?php echo $projet["titre"]; ?> </h5>
-           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-             <span aria-hidden="true">&times;</span>
-           </button>
-         </div>
-         <div class="modal-body">
-           <form action="model/addCritereToProjet.php" method="POST">
-             <div class="form-group">
-               <?php foreach (getCategoriesCriteres() as $categorie) {
-                 echo "<h5>".$categorie["categorie"]."</h5><br>";
-                 echo "<div class=\"list-group\">";
-                 foreach (getCriteresToAdd($idProjet, $categorie["idCategorie"]) as $critere) {
-                   echo " <div class=\"form-check\">";
-                   echo "  <input class=\"form-check-input\" style=\"margin-top: 37px;\" type=\"checkbox\" value=\"".$critere["idCritere"]."\" name=\"idCritere[]\">";
-                   echo "  <li class=\"list-group-item\"><small style=\"float: right;\">".$critere["pointsMax"]."</small><h6>".$critere["critere"]."</h6> <p>".$critere["definition"]."<p></li>";
-                   echo " </div>";
+         <form action="model/updateProjet.php" method="POST">
+           <div class="modal-header">
+             <h5 class="modal-title" id="exampleModalLabel">Modification de <?php echo $projet["titre"]; ?></h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+             </button>
+           </div>
+           <div class="modal-body">
+            <div class="form-group">
+              <label for="">Titre</label>
+              <input class="form-control" type="text" name="titre" value="<?php echo $projet["titre"]; ?>">
+            </div>
+            <div class="form-group">
+              <label for="">Description</label>
+              <textarea class="form-control" name="description" rows="3"><?php echo $projet["description"]; ?></textarea>
+            </div>
+            <div class="form-group">
+              <label for="">Client</label>
+              <input class="form-control" type="text" name="client" value="<?php echo $projet["client"]; ?>">
+            </div>
+            <div class="form-group">
+              <label for="duree">Durée du projet</label>
+                <?php if ($projet["dureePrevue"] == 1) {  ?>
+              <div class="form-check-inline">
+                <label class="form-check-label">
+                  <input type="radio" class="form-check-input" value="1" name="dureePrevue" checked>1 semestre
+                </label>
+              </div>
+              <div class="form-check-inline">
+                <label class="form-check-label">
+                  <input type="radio" class="form-check-input" value="2" name="dureePrevue">2 semestres
+                </label>
+              </div>
+            <?php }else { ?>
+              <div class="form-check-inline">
+                <label class="form-check-label">
+                  <input type="radio" class="form-check-input" value="1" name="dureePrevue">1 semestre
+                </label>
+              </div>
+              <div class="form-check-inline">
+                <label class="form-check-label">
+                  <input type="radio" class="form-check-input" value="2" name="dureePrevue" checked>2 semestres
+                </label>
+              </div>
+            <?php } ?>
+            </div>
+            <div class="form-group">
+                <label for="">Date début</label>
+               <input class="form-control" type="date" value="<?php echo $projet["dateDebut"]; ?>" name="dateDebut">
+            </div>
+            <div class="form-group">
+             <label for="categorie">Domaine</label>
+             <select class="form-control" name="idDomaine">
+               <?php
+                 foreach (getDomaines() as $domaine) {
+                   if ($domaine["idDomaine"] == $projet["idDomaine"]) {
+                     echo '<option value="'.$domaine["idDomaine"].'" selected>'.$domaine["domaine"].'</option>';
+                   }
+                   else {
+                     echo '<option value="'.$domaine["idDomaine"].'">'.$domaine["domaine"].'</option>';
+                   }
                  }
-                 echo "</div>";
-                 echo "<br><br>";
-               } ?>
-             </div>
-             <input type="hidden" name="idProjet" value="<?php echo $projet["idProjet"]; ?>">
-            <button type="submit" class="btn btn-primary">Ajouter</button>
-          </form>
-         </div>
-         <div class="modal-footer">
-           <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-         </div>
+               ?>
+             </select>
+           </div>
+           <div class="modal-footer">
+             <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+             <input type="hidden" name="idProjet" value="<?php echo $idProjet; ?>">
+             <button type="submit" class="btn btn-primary">Enregistrer</button>
+
+           </div>
+         </form>
+       </div>
+     </div>
+   </div></div>
+
+
+
+ <!-- Modal d'ajout d'un critère existant -->
+ <div class="modal fade" id="modalAjoutCritereExistant" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h5 class="modal-title" id="exampleModalLabel">Ajouter des élèves à <?php echo $projet["titre"]; ?> </h5>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+         </button>
+       </div>
+       <div class="modal-body">
+         <form action="model/addCritereToProjet.php" method="POST">
+           <div class="form-group">
+             <?php foreach (getCategoriesCriteres() as $categorie) {
+               echo "<h5>".$categorie["categorie"]."</h5><br>";
+               echo "<div class=\"list-group\">";
+               foreach (getCriteresToAdd($idProjet, $categorie["idCategorie"]) as $critere) {
+                 echo " <div class=\"form-check\">";
+                 echo "  <input class=\"form-check-input\" style=\"margin-top: 37px;\" type=\"checkbox\" value=\"".$critere["idCritere"]."\" name=\"idCritere[]\">";
+                 echo "  <li class=\"list-group-item\"><small style=\"float: right;\">".$critere["pointsMax"]."</small><h6>".$critere["critere"]."</h6> <p>".$critere["definition"]."<p></li>";
+                 echo " </div>";
+               }
+               echo "</div>";
+               echo "<br><br>";
+             } ?>
+           </div>
+           <input type="hidden" name="idProjet" value="<?php echo $projet["idProjet"]; ?>">
+          <button type="submit" class="btn btn-primary">Ajouter</button>
+        </form>
+       </div>
+       <div class="modal-footer">
+         <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
        </div>
      </div>
    </div>
-
-  </div>
+ </div>

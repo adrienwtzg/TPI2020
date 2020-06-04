@@ -16,9 +16,32 @@
     <nav>
       <ul id="navigation">
         <li id="titlenav"><a>Evaluation projets EE</a></li>
-        <?php if(isset($_SESSION["log"])) { ?>
-        <li class="pages"><a href="index.php?page=projets">Gestion de projets</a></li>
-        <li class="pages" style="float: right;"><a href="index.php?page=logout">Déconnexion</a></li>
-        <?php } ?>
+        <?php
+          if(isset($_SESSION["log"])) {
+            switch ($_SESSION["statut"]) {
+              //Administrateur
+              case 1:
+                echo '<li class="pages"><a href="index.php?page=projets">Gestion administrateur</a></li>';
+                echo '<li class="pages"><a href="index.php?page=criteres">Gestion des Critères</a></li>';
+                echo '<li class="pages" style="float: right;"><a href="index.php?page=logout">Déconnexion</a></li>';
+                echo '<li class="pages" style="float: right;"><a href="index.php?page=profil">Profil</a></li>';
+                echo '<button type="button" style="float: right; margin-top: 6px;;" class="btn btn-outline-dark" disabled>Administrateur</button>';
+                break;
+              //Enseignant
+              case 2:
+                echo '<li class="pages"><a href="index.php?page=projets">Gestion de projets</a></li>';
+                echo '<li class="pages"><a href="index.php?page=criteres">Gestion des Critères</a></li>';
+                echo '<li class="pages" style="float: right;"><a href="index.php?page=logout">Déconnexion</a></li>';
+                echo '<li class="pages" style="float: right;"><a href="index.php?page=profil">Profil</a></li>';
+                break;
+              //Elève
+              case 3:
+                echo '<li class="pages"><a href="index.php?page=projets">Mes projets</a></li>';
+                echo '<li class="pages" style="float: right;"><a href="index.php?page=logout">Déconnexion</a></li>';
+                echo '<li class="pages" style="float: right;"><a href="index.php?page=profil">Profil</a></li>';
+                break;
+            }
+          }
+       ?>
       </ul>
     </nav>
