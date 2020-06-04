@@ -15,7 +15,7 @@ $dataProjet = filter_input_array(INPUT_POST, [
 
 
 //Vérifie que la personne qui supprime un utilisateur d'un projet soit un enseignant
-if ($_SESSION["statut"] == 2) {
+if ($_SESSION["statut"] != 3) {
   //Connexion à la base données
   $db = connectDB();
   //Supprime dans chaque table qui contient un idProjet

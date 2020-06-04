@@ -1,5 +1,4 @@
 <?php
-include 'getCritereIdByName.php';
 include '../db/databaseConnection.php';
 
 //Vérifie que les entrées sont correctement syntaxé

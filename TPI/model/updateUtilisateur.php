@@ -24,9 +24,9 @@ $query->bindParam(5, $dataUtilisateur["idUtilisateur"]);
 //Execute la requête
 if ($query->execute()) {
 
-  header('Location: ../index.php?page=criteres');
+  header('Location: ../index.php?page=projets');
 }
 else {
-  header('Location: ../index.php?page=');
+  //header('Location: index.php?page=');
 }
  ?>
