@@ -3,17 +3,17 @@ include 'model/getCategoriesCriteres.php';
 include 'model/getCriteresByCategories.php';
 include 'model/getEleveByUtilisateur.php';
 include 'model/getInfoEleve.php';
+include 'model/getProjetById.php';
 
 $idProjet = $_SESSION["idProjetEvaluer"];
 $idUtilisateur = $_SESSION["idUtilisateurEvaluer"];
 $idEleve = getEleveByUtilisateur($idUtilisateur)[0]["idEleve"];
 $infoEleve = getInfoEleve($idEleve);
-
+$projet = getProjetById($idProjet);
 ?>
   <div class="card">
    <div class="card-body">
-     <h3 class="card-title text-center">Evaluation de <?php echo $infoEleve["prenom"]. " ".$infoEleve["nom"]; ?></h3><br><br>
-
+     <h3 class="card-title text-center">Evaluation de <?php echo $infoEleve["prenom"]. " ".$infoEleve["nom"]." dans le projet ".$projet["titre"]; ?></h3><br><br>
      <div class="container">
        <form class="" action="model/evaluer.php" method="post">
          <input type="hidden" name="idProjet" value="<?php echo $idProjet; ?>">

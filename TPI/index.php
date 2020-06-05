@@ -28,6 +28,9 @@ elseif ($page == "projets") {
           break;
       }
   }
+  else {
+    header('Location: index.php?page=login');
+  }
 }
 elseif ($page == "projetDetail") {
   if (isset($_SESSION["statut"])) {
@@ -40,6 +43,9 @@ elseif ($page == "projetDetail") {
           break;
       }
   }
+  else {
+    header('Location: index.php?page=login');
+  }
 }
 elseif ($page == "projetEvaluation") {
   if (isset($_SESSION["statut"])) {
@@ -47,12 +53,18 @@ elseif ($page == "projetEvaluation") {
       include 'views/projetEvaluation.php';
     }
   }
+  else {
+    header('Location: index.php?page=login');
+  }
 }
 elseif ($page == "voirEvaluation") {
   if (isset($_SESSION["statut"])) {
     if ($_SESSION["statut"] == 2) {
       include 'views/voirEvaluation.php';
     }
+  }
+  else {
+    header('Location: index.php?page=login');
   }
 }
 elseif ($page == "criteres") {
@@ -68,6 +80,9 @@ elseif ($page == "criteres") {
           include 'views/error.php';
           break;
       }
+  }
+  else {
+    header('Location: index.php?page=login');
   }
 }
 elseif ($page == "profil") {

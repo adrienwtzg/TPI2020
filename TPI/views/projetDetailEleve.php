@@ -160,12 +160,13 @@ echo "   </div></div>";
            }
          echo '<h6>Total des points <b style="border: 1px solid black; padding: 5px;">'. $pointsObtenus." / ".$pointsTotal.'</b></h6>';
          echo '<h4>Note <b style="border: 1px solid black; padding-right: 10px;padding-left: 10px;">'.getNote($idEleve, $idProjet).'</b></h4>';
+         echo '<form class="" action="#" method="post">';
+           echo '<br><button type="submit" name="download" class="btn btn-primary">Télécharger mon évaluation</button>';
+         echo '</form>';
        }
 
      ?>
-     <form class="" action="#" method="post">
-       <br><button type="submit" name="download" class="btn btn-primary">Télécharger mon évaluation</button>
-     </form>
+
    </div>
  </div>
 </div>

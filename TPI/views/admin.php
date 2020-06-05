@@ -5,11 +5,13 @@ include 'model/getUtilisateurs.php';
 include 'model/getCategorieById.php';
 include 'model/getDomaineById.php';
 include 'model/getUtilisateurById.php';
+
 //Redirige vers le login si l'utilisateur n'est pas authentifié
 if(!isset($_SESSION["log"])) {
   header('Location: index.php?page=login');
 }
 
+//detection ajout/modification/suppression de catégories, domaines et utilisateurs
 if (isset($_POST['action'])) {
   if ($_POST['action'] == 'modifierCategorie') {
     $idCategorieAlter = $_POST["idCategorie"];
@@ -71,6 +73,11 @@ if (isset($_SESSION["messageErreur"])) {
   unset($_SESSION["messageErreur"]);
 }
 
+//Message d'erreur si le nom et le prénom de l'utilisateur à ajouter existe déja
+if (isset($_SESSION["messageMemeNomUtilisateur"])) {
+  echo $_SESSION["messageMemeNomUtilisateur"];
+  unset($_SESSION["messageMemeNomUtilisateur"]);
+}
 ?>
 <div class="container"><br>
   <div class="row">
@@ -175,7 +182,7 @@ if (isset($_SESSION["messageErreur"])) {
           <div class="modal-body">
            <div class="form-group">
              <label for="">Nom de la catégorie</label>
-             <input class="form-control" type="text" name="categorie" value="<?php echo $categorieAlter["categorie"]; ?>">
+             <input class="form-control" type="text" name="categorie" value="<?php echo $categorieAlter["categorie"]; ?>" required>
            </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" onclick="location.href ='index.php?page=projets';">Annuler</button>
@@ -226,7 +233,7 @@ if (isset($_SESSION["messageErreur"])) {
           <div class="modal-body">
            <div class="form-group">
              <label for="">Nom de la catégorie</label>
-             <input class="form-control" type="text" name="domaine" value="<?php echo $domaineAlter["domaine"]; ?>">
+             <input class="form-control" type="text" name="domaine" value="<?php echo $domaineAlter["domaine"]; ?>" required>
            </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" onclick="location.href ='index.php?page=projets';">Annuler</button>
@@ -277,50 +284,15 @@ if (isset($_SESSION["messageErreur"])) {
           <div class="modal-body">
            <div class="form-group">
              <label for="">Nom</label>
-             <input class="form-control" type="text" name="nom" value="<?php echo $utilisateurAlter["nom"]; ?>">
+             <input class="form-control" type="text" name="nom" value="<?php echo $utilisateurAlter["nom"]; ?>" required>
            </div>
            <div class="form-group">
              <label for="">Prénom</label>
-             <input class="form-control" type="text" name="prenom" value="<?php echo $utilisateurAlter["prenom"]; ?>">
+             <input class="form-control" type="text" name="prenom" value="<?php echo $utilisateurAlter["prenom"]; ?>" required>
            </div>
            <div class="form-group">
              <label for="">Email</label>
-             <input class="form-control" type="text" name="email" value="<?php echo $utilisateurAlter["email"]; ?>">
-           </div>
-           <div class="form-group">
-             <?php switch ($utilisateurAlter["statut"]) {
-               case 1:
-                echo '<div class="form-group">';
-                echo '  <label for="">Statut</label>';
-                echo '    <select class="form-control" name="statut">';
-                echo '    <option value="1" selected>Administrateur</option>';
-                echo '    <option value="2">Enseignant</option>';
-                echo '    <option value="3">Elève</option>';
-                echo '  </select>';
-                echo '</div>';
-                break;
-               case 2:
-                 echo '<div class="form-group">';
-                 echo '  <label for="">Statut</label>';
-                 echo '    <select class="form-control" name="statut">';
-                 echo '    <option value="1">Administrateur</option>';
-                 echo '    <option value="2" selected>Enseignant</option>';
-                 echo '    <option value="3">Elève</option>';
-                 echo '  </select>';
-                 echo '</div>';
-                 break;
-               case 3:
-                 echo '<div class="form-group">';
-                 echo '  <label for="">Statut</label>';
-                 echo '    <select class="form-control" name="statut">';
-                 echo '    <option value="1">Administrateur</option>';
-                 echo '    <option value="2">Enseignant</option>';
-                 echo '    <option value="3" selected>Elève</option>';
-                 echo '  </select>';
-                 echo '</div>';
-                 break;
-             }
-             ?>
+             <input class="form-control" type="text" name="email" value="<?php echo $utilisateurAlter["email"]; ?>" required>
            </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" onclick="location.href ='index.php?page=projets';">Annuler</button>
@@ -372,7 +344,7 @@ if (isset($_SESSION["messageErreur"])) {
         <div class="modal-body">
          <div class="form-group">
            <label for="">Nom de la catégorie</label>
-           <input class="form-control" type="text" name="categorie">
+           <input class="form-control" type="text" name="categorie" required>
          </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" onclick="location.href ='index.php?page=projets';">Annuler</button>
@@ -397,7 +369,7 @@ if (isset($_SESSION["messageErreur"])) {
         <div class="modal-body">
          <div class="form-group">
            <label for="">Nom du domaine</label>
-           <input class="form-control" type="text" name="domaine">
+           <input class="form-control" type="text" name="domaine" required>
          </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" onclick="location.href ='index.php?page=projets';">Annuler</button>
@@ -408,33 +380,34 @@ if (isset($_SESSION["messageErreur"])) {
   </div>
 </div>
 </div>
-<!-- Modal d'ajout d'un domaine-->
+<!-- Modal d'ajout d'un utilisateur-->
 <div class="modal fade" id="modalAjoutUtilisateur" tabindex="1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <form action="model/addUtilisateur.php" method="POST">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Ajout d'un domaine de projets</h5>
+          <h5 class="modal-title">Ajout d'un utilisateur</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
+          <div class="alert alert-info">&#x26a0; Si deux utilisateurs ont le même nom et prénom, rajouter le deuxième prénom ou la date de naissance dans le prénom</div>
          <div class="form-group">
            <label for="">Nom</label>
-           <input class="form-control" type="text" name="nom" >
+           <input class="form-control" type="text" name="nom" required>
          </div>
          <div class="form-group">
            <label for="">Prénom</label>
-           <input class="form-control" type="text" name="prenom" >
+           <input class="form-control" type="text" name="prenom" required>
          </div>
          <div class="form-group">
            <label for="">Email</label>
-           <input class="form-control" type="text" name="email" >
+           <input class="form-control" type="email" name="email" required>
          </div>
          <div class="form-group">
            <label for="">Mot de passe</label>
-           <input class="form-control" type="password" name="motDePasse" >
+           <input class="form-control" type="password" name="motDePasse" required>
          </div>
          <div class="form-group">
            <label>Statut</label>
@@ -444,9 +417,7 @@ if (isset($_SESSION["messageErreur"])) {
              <option value="3">Elève</option>
            </select>
          </div>
-         <div class="eleveContent">
-
-         </div>
+         <div class="eleveContent"><!-- input de Classe et Année si élève choisit plus haut --></div>
          <script type="text/javascript">
          $(document).ready(function() {
             $('#statut').change(function(){

@@ -1,11 +1,10 @@
 <?php
 include 'model/getProjetsEleve.php';
+
 //Redirige vers le login si l'utilisateur n'est pas authentifié
 if(!isset($_SESSION["log"])) {
   header('Location: index.php');
 }
-
-
 ?>
 <div class="container" style="float:right;">
     <div class="row mt-3">

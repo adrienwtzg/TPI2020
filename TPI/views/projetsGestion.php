@@ -1,5 +1,4 @@
 <?php
-//Fonction de récupération des projets de l'enseignant
 include 'model/getProjets.php';
 include 'model/getDomaines.php';
 
@@ -8,13 +7,18 @@ if(!isset($_SESSION["log"])) {
   header('Location: index.php');
 }
 
+//Message d'erreur si le nom du projet à ajouter existe déja
+if (isset($_SESSION["messageMemeNomProjet"])) {
+  echo $_SESSION["messageMemeNomProjet"];
+  unset($_SESSION["messageMemeNomProjet"]);
+}
+
 ?>
 <button type="button" class="btn btn-success" style=" margin: 20px;" data-toggle="modal" data-target="#modalAjoutProjets">Ajouter un projet</button>
-
 <div class="container" style="float:right;">
     <div class="row mt-3">
     <?php
-    //Affiche les projets un après l'autre
+    //Affiche les projets l'un après l'autre
     foreach (GetProjets() as $projet) {
       //Rogne la description sur la miniature pour n'afficher qu'une ligne
       if (strlen($projet["description"]) > 32) {
@@ -48,19 +52,19 @@ if(!isset($_SESSION["log"])) {
       <div class="modal-body">
         <form action="model/addProject.php" method="POST">
           <div class="form-group">
-            <input type="text" class="form-control" name="Titre" placeholder="Titre du projet">
+            <input type="text" class="form-control" name="Titre" placeholder="Titre du projet" required>
           </div>
           <div class="form-group">
-            <textarea class="form-control" name="Description" rows="4" placeholder="Description du projet"></textarea>
+            <textarea class="form-control" name="Description" rows="4" placeholder="Description du projet" required></textarea>
           </div>
           <div class="form-group">
-            <input type="text" class="form-control" name="Client" placeholder="Client du projet">
+            <input type="text" class="form-control" name="Client" placeholder="Client du projet" required>
           </div>
           <div class="form-group">
             <label for="duree">Durée du projet</label>
             <div class="form-check-inline">
               <label class="form-check-label">
-                <input type="radio" class="form-check-input" value="1" name="DureePrevue">1 semestre
+                <input type="radio" class="form-check-input" value="1" name="DureePrevue" checked>1 semestre
               </label>
             </div>
             <div class="form-check-inline">
@@ -71,7 +75,7 @@ if(!isset($_SESSION["log"])) {
           </div>
           <div class="form-group">
               <label for="">Date début</label>
-             <input class="form-control" type="date" name="DateDebut">
+             <input class="form-control" type="date" name="DateDebut" required>
           </div>
           <div class="form-group">
             <select class="form-control" name="idDomaine">

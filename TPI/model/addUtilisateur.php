@@ -22,6 +22,16 @@ if (isset($_POST["classe"])) {
   //Connexion à la base données
   $db = connectDB();
 
+  $query = $db->prepare("SELECT idUtilisateur FROM utilisateurs WHERE nom = ? AND prenom = ?");
+  $query->bindParam(1, $dataUtilisateur["nom"]);
+  $query->bindParam(2, $dataUtilisateur["prenom"]);
+  $query->execute();
+  $tab = $query->fetchAll(PDO::FETCH_ASSOC);
+  if (!empty($tab)) {
+    $_SESSION["messageMemeNomUtilisateur"] = '<div class="alert alert-danger" role="alert">Deux utilisateurs ne peuvent pas avoir le même prénom et nom</div>';
+    header("Location: ../index.php?page=projets");
+  }
+
   if ($dataUtilisateur["statut"] == 3) {
     $query = $db->prepare("INSERT INTO `utilisateurs`(`nom`, `prenom`, `email`, `motDePasse`, `statut`) VALUES (?,?,?,?,?)");
     $query->bindParam(1, $dataUtilisateur["nom"]);

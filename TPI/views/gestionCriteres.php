@@ -3,7 +3,6 @@ include 'model/getCategoriesCriteres.php';
 include 'model/getAllCriteresByCategories.php';
 include 'model/getCritereById.php';
 
-
 //Détecte un modification ou suppression
 if (isset($_POST['action'])) {
   $idCritereAlter = $_POST["idCritere"];
@@ -27,12 +26,11 @@ if (isset($_POST['action'])) {
   }
 }
 
+if (isset($_SESSION["messageMemeNomCritere"])) {
+  echo $_SESSION["messageMemeNomCritere"];
+  unset($_SESSION["messageMemeNomCritere"]);
+}
 ?>
-<script type="text/javascript">
-  $(document).ready(function(){
-
-  });
-</script>
 <div class="container">
   <div class="card">
    <div class="card-body">
@@ -151,13 +149,13 @@ if (isset($_POST['action'])) {
       <div class="modal-body">
         <form action="model/addNewCritere.php" method="POST">
           <div class="form-group">
-            <input type="text" class="form-control" name="critere" placeholder="Nom du critère">
+            <input type="text" class="form-control" name="critere" placeholder="Nom du critère" required>
           </div>
           <div class="form-group">
-            <textarea rows="3" class="form-control" name="definition" placeholder="Définition du critère"></textarea>
+            <textarea rows="3" class="form-control" name="definition" placeholder="Définition du critère" required></textarea>
           </div>
           <div class="form-group">
-            <input type="number" class="form-control" name="pointsMax" placeholder="Points maximum">
+            <input type="number" class="form-control" name="pointsMax" placeholder="Points maximum" required>
           </div>
           <div class="form-group">
             <label for="categorie">Catégorie du critère</label>

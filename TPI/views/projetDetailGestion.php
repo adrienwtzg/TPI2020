@@ -203,15 +203,15 @@ if (isset($_POST['action'])) {
            <div class="modal-body">
             <div class="form-group">
               <label for="">Titre</label>
-              <input class="form-control" type="text" name="titre" value="<?php echo $projet["titre"]; ?>">
+              <input class="form-control" type="text" name="titre" value="<?php echo $projet["titre"]; ?>" required>
             </div>
             <div class="form-group">
               <label for="">Description</label>
-              <textarea class="form-control" name="description" rows="3"><?php echo $projet["description"]; ?></textarea>
+              <textarea class="form-control" name="description" rows="3" required><?php echo $projet["description"]; ?></textarea>
             </div>
             <div class="form-group">
               <label for="">Client</label>
-              <input class="form-control" type="text" name="client" value="<?php echo $projet["client"]; ?>">
+              <input class="form-control" type="text" name="client" value="<?php echo $projet["client"]; ?>" required>
             </div>
             <div class="form-group">
               <label for="duree">Durée du projet</label>
@@ -276,7 +276,7 @@ if (isset($_POST['action'])) {
    <div class="modal-dialog" role="document">
      <div class="modal-content">
        <div class="modal-header">
-         <h5 class="modal-title" id="exampleModalLabel">Ajouter des élèves à <?php echo $projet["titre"]; ?> </h5>
+         <h5 class="modal-title" id="exampleModalLabel">Ajouter des critères à <?php echo $projet["titre"]; ?> </h5>
          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
            <span aria-hidden="true">&times;</span>
          </button>
