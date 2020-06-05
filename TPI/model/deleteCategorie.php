@@ -30,6 +30,7 @@ if ($_SESSION["statut"] == 1) {
     header("Location: ../index.php?page=projets");
   }
   else {
+    $_SESSION["messageErreur"] = "<div class=\"alert alert-danger\" role=\"alert\">La catégorie possède des critères, il n'est donc pas possible de la supprimer !</div>";
     header("Location: ../index.php?page=projets");
   }
 

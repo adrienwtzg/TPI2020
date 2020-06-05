@@ -65,6 +65,12 @@ if (isset($_POST['action'])) {
   }
 }
 
+//Message d'erreur suppression utilisateurs
+if (isset($_SESSION["messageErreur"])) {
+  echo $_SESSION["messageErreur"];
+  unset($_SESSION["messageErreur"]);
+}
+
 ?>
 <div class="container"><br>
   <div class="row">
@@ -432,12 +438,27 @@ if (isset($_POST['action'])) {
          </div>
          <div class="form-group">
            <label>Statut</label>
-           <select class="form-control" name="statut">
+           <select class="form-control" name="statut" id="statut">
              <option value="1">Administrateur</option>
-             <option value="2">Enseignant</option>
-             <option value="3" selected>Elève</option>
+             <option value="2" selected>Enseignant</option>
+             <option value="3">Elève</option>
            </select>
          </div>
+         <div class="eleveContent">
+
+         </div>
+         <script type="text/javascript">
+         $(document).ready(function() {
+            $('#statut').change(function(){
+                if ($(this).find("option:selected").attr('value') == 3) {
+                  $(".eleveContent").append("<label>Classe</label><input class=\"form-control\" name=\"classe\" type=\"text\" ><br><label>Année</label><input class=\"form-control\" name=\"annee\" type=\"number\" ><br>");
+                }
+                else {
+                  $(".eleveContent").empty();
+                }
+            });
+         });
+         </script>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" onclick="location.href ='index.php?page=projets';">Annuler</button>
           <button type="submit" class="btn btn-primary">Enregistrer</button>

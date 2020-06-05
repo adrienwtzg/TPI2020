@@ -10,6 +10,7 @@ include 'model/deleteEleveProjet.php';
 include 'model/estEvalue.php';
 include 'model/getNote.php';
 include 'model/getEvaluations.php';
+include 'model/getInfoEleve.php';
 require('fpdf182/fpdf.php');
 
 //include 'model/getEleveByUtilisateur.php';
@@ -32,6 +33,7 @@ else {
 $projet = getProjetById($idProjet);
 
 $idEleve = getEleveByUtilisateur($_SESSION["id"])[0]["idEleve"];
+$eleve = getInfoEleve($idEleve);
 
 
 
@@ -39,31 +41,38 @@ if (isset($_POST["download"])) {
   $pdf = new FPDF();
   $pdf->SetAutoPageBreak( false);
   $pdf->AddPage();
+  $page_height = 286.93;
+  $pdf->AddFont('Helvetica','');
+  $pdf->SetFont('Helvetica', '',18);
+  $pdf->Cell(180, 10, $projet["titre"]. " - ".$eleve["prenom"]." ".$eleve["nom"]." - ".date("d/m/Y"), '', 1, '');
   $pointsObtenus += $evaluation["pointsObtenus"];
   $pointsTotal += $evaluation["pointsMax"];
 
   foreach (getCategoriesCriteres() as $categorie) {
     if (!empty(getCriteresByCategories($categorie["idCategorie"], $idProjet))) {
-        $pdf->SetFont('Arial','B',18);
-        $pdf->Cell(180, 10, utf8_decode($categorie["categorie"]), '', 1, '');
+        $pdf->SetFont('Helvetica','B',18);
+        $pdf->Cell(180, 10, $categorie["categorie"], '', 1, '');
         $pdf->Cell(180, 4, "", '', 1);
       foreach (getEvaluations($idEleve, $idProjet, $categorie["idCategorie"]) as $evaluation) {
-        $pdf->SetFont('Arial','B',16);
-        $pdf->Cell(180, 10, utf8_decode($evaluation["critere"]), 'LTRB', 1, 'C');
-        $pdf->SetFont('Arial','',12);
-        if ($pdf->GetStringWidth(utf8_decode($evaluation["definition"])) >= 180) {
-          $pdf->MultiCell(180, 10, utf8_decode($evaluation["definition"]), 'LR', 1);
+        if ($pdf->GetY() > $page_height - 80) {
+          $pdf->AddPage();
+        }
+        $pdf->SetFont('Helvetica','B',16);
+        $pdf->Cell(180, 10, $evaluation["critere"], 'LTRB', 1, 'C');
+        $pdf->SetFont('Helvetica','',12);
+        if ($pdf->GetStringWidth($evaluation["definition"]) >= 180) {
+          $pdf->MultiCell(180, 10, $evaluation["definition"], 'LR', 1);
         }
         else {
-          $pdf->Cell(180, 10, utf8_decode($evaluation["definition"]), 'LR', 1);
+          $pdf->Cell(180, 10, $evaluation["definition"], 'LR', 1);
         }
-        if ($pdf->GetStringWidth(utf8_decode($evaluation["observation"])) >= 180) {
-          $pdf->MultiCell(180, 10, "Commentaire: ".utf8_decode($evaluation["observation"]), 'LTR', 1);
+        if ($pdf->GetStringWidth($evaluation["observation"]) >= 180) {
+          $pdf->MultiCell(180, 10, "Commentaire: ".$evaluation["observation"], 'LTR', 1);
         }
         else {
-          $pdf->Cell(180, 10, "Commentaire: ".utf8_decode($evaluation["observation"]), 'LTR', 1);
+          $pdf->Cell(180, 10, "Commentaire: ".$evaluation["observation"], 'LTR', 1);
         }
-        $pdf->SetFont('Arial','B',16);
+        $pdf->SetFont('Helvetica','B',16);
         $pointsObtenus += $evaluation["pointsObtenus"];
         $pointsTotal += $evaluation["pointsMax"];
         $pdf->Cell(180, 13, "Points: ".$evaluation["pointsObtenus"]." / ".$evaluation["pointsMax"], 'LTBR', 1, 'R');
@@ -76,7 +85,10 @@ if (isset($_POST["download"])) {
     }
   }
   $pdf->Cell(180, 10, "", '', 1);
-  $pdf->SetFont('Arial','B',18);
+  if ($pdf->GetY() > $page_height - 80) {
+    $pdf->AddPage();
+  }
+  $pdf->SetFont('Helvetica','B',18);
   $pdf->Cell(60, 10, "Total des points ", '', 0, '');
   $pdf->Cell(20, 10, $pointsObtenus." / ".$pointsTotal, 'LTBR', 1, '');
   $pdf->Cell(180, 10, "", '', 1);

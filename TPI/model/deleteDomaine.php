@@ -30,6 +30,7 @@ if ($_SESSION["statut"] == 1) {
     header("Location: ../index.php?page=projets");
   }
   else {
+    $_SESSION["messageErreur"] = "<div class=\"alert alert-danger\" role=\"alert\">Le domaine appartient à des projets, il n'est donc pas possible de le supprimer !</div>";
     header("Location: ../index.php?page=projets");
   }
 

@@ -41,6 +41,7 @@ $infoEleve = getInfoEleve($idEleve);
 
          ?>
          <button style="float: right;" class="btn btn-danger" data-toggle="modal" data-target="#modalDeleteEvaluation">Supprimer l'évaluation</button>
+         <button type="submit" name="button"></button>
          <h6>Total des points <b style="border: 1px solid black; padding: 5px;"><?php echo $pointsObtenus." / ".$pointsTotal; ?></b></h6>
          <h4>Note <b style="border: 1px solid black; padding-right: 10px;padding-left: 10px;"><?php echo getNote($idEleve, $idProjet); ?></b></h4>
      </div>

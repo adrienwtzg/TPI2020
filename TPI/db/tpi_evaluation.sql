@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  mer. 03 juin 2020 à 09:02
+-- Généré le :  ven. 05 juin 2020 à 11:46
 -- Version du serveur :  5.7.17
 -- Version de PHP :  5.6.30
 
@@ -30,18 +30,17 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `categories` (
   `idCategorie` int(11) NOT NULL,
-  `categorie` varchar(50) NOT NULL,
-  `specification` text NOT NULL
+  `categorie` varchar(50) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `categories`
 --
 
-INSERT INTO `categories` (`idCategorie`, `categorie`, `specification`) VALUES
-(1, 'Technique du projet', 'Technique technologique et conceptuelle de l\'élève dans son travail au sein du projet'),
-(2, 'Attitude professionnelle', 'Attitude de l\'élève en milieu professionnel'),
-(3, 'Aptitude professionnelle', 'Capacité de l\'élève à apprendre de lui même et raisonner de manière organisée et structurée');
+INSERT INTO `categories` (`idCategorie`, `categorie`) VALUES
+(1, 'Technique du projet'),
+(2, 'Attitude professionnelle'),
+(3, 'Aptitude professionnelle');
 
 -- --------------------------------------------------------
 
@@ -62,11 +61,12 @@ CREATE TABLE `criteres` (
 --
 
 INSERT INTO `criteres` (`idCritere`, `critere`, `definition`, `pointsMax`, `idCategorie`) VALUES
-(1, 'Organisation quotidienne', 'L\'élève s\'organise quotidiennement', 10, 3),
+(1, 'Organisation quotidienne', 'L\'élève s\'organise quotidiennement.', 8, 3),
 (2, 'Attitude pendant les rendez-vous', 'L\'élève reste attentif, concentré, et s\'intéresse aux propositions du client.', 7, 2),
-(3, 'Indépendance', 'L\'élève est indépendant et auto-didacte dans son travail', 10, 1),
-(9, 'Demande de l\'aide', 'Demande de l&#39;aide à un camarade ou un professeur avec des questions pertinentes et réflechies.', 4, 1),
-(10, 'Travail pendant les heures', 'L\'élève travaille pendant le temps alloué au travail.', 5, 2);
+(3, 'Indépendance.', 'L\'élève est indépendant et auto-didacte dans son travail.', 12, 1),
+(9, 'Demande de l\'aide', 'Demande de l\'aide à un camarade ou un professeur avec des questions pertinentes et réflechies.', 4, 1),
+(10, 'Travail pendant les heures', 'L\'élève travaille pendant le temps alloué au travail.', 5, 2),
+(17, 'Travail en groupe', 'L\'élève travaille en groupe.', 15, 3);
 
 -- --------------------------------------------------------
 
@@ -90,15 +90,17 @@ INSERT INTO `criteres_projets` (`idProjet`, `idCritere`) VALUES
 (2, 9),
 (3, 1),
 (3, 2),
+(3, 3),
+(3, 9),
 (3, 10),
-(11, 1),
+(3, 17),
 (11, 3),
-(11, 10),
-(16, 1),
-(16, 2),
-(16, 3),
-(16, 9),
-(16, 10);
+(11, 9),
+(24, 1),
+(24, 2),
+(24, 3),
+(24, 9),
+(24, 17);
 
 -- --------------------------------------------------------
 
@@ -169,16 +171,17 @@ INSERT INTO `evaluations` (`idEvaluation`, `observation`, `date`, `pointsObtenus
 (9, 'asd', '2020-06-02', '7', 1, 2, 2),
 (8, 'sda', '2020-06-02', '4', 1, 2, 9),
 (7, 'aaa', '2020-06-02', '10', 1, 2, 3),
-(11, 'asdasd', '2020-06-02', '0', 2, 2, 3),
-(12, 'asd', '2020-06-02', '0', 2, 2, 9),
-(13, 'sdsd', '2020-06-02', '0', 2, 2, 2),
-(14, 'df', '2020-06-02', '0', 2, 2, 1),
-(15, '', '2020-06-02', '4', 4, 3, 2),
-(16, '', '2020-06-02', '3', 4, 3, 10),
-(17, '', '2020-06-02', '6', 4, 3, 1),
-(18, 'Pas vraiment...', '2020-06-02', '5', 1, 3, 2),
-(19, 'Souvent perturbé.', '2020-06-02', '3', 1, 3, 10),
-(20, 'Aucune organisation', '2020-06-02', '2', 1, 3, 1);
+(44, 'asdasd', '2020-06-05', '13', 1, 24, 17),
+(43, 'asdsa', '2020-06-05', '5', 1, 24, 1),
+(42, 'asd', '2020-06-05', '5', 1, 24, 2),
+(39, 'En général oui', '2020-06-04', '10', 1, 3, 17),
+(38, '', '2020-06-04', '6', 1, 3, 1),
+(37, 'Non', '2020-06-04', '3', 1, 3, 10),
+(34, 'ça va', '2020-06-04', '8', 1, 3, 3),
+(35, 'Bien !', '2020-06-04', '3', 1, 3, 9),
+(36, 'Très distrait', '2020-06-04', '2', 1, 3, 2),
+(41, 'asd', '2020-06-05', '3', 1, 24, 9),
+(40, 'asd', '2020-06-05', '3', 1, 24, 3);
 
 -- --------------------------------------------------------
 
@@ -202,11 +205,12 @@ CREATE TABLE `projets` (
 --
 
 INSERT INTO `projets` (`idProjet`, `titre`, `description`, `client`, `dureePrevue`, `dateDebut`, `idDomaine`, `idUtilisateur`) VALUES
-(2, 'PRO-VELO', 'Site d&#39;itinéraire de vélo.', 'GE-Roule', '2', '2020-05-25', 1, 2),
-(3, 'GE-soif', 'Localise les fontaines autour de l&#39;utilisateur à Genève.', 'CFPT', '2', '2020-05-25', 1, 2),
+(2, 'PRO-VELO', 'Site d\'itinéraire de vélo...', 'GE-Roule', '2', '2020-05-25', 1, 2),
+(3, 'GE-soif', 'Localise les fontaines autour de l\'utilisateur à Genève.', 'CFPT', '2', '2020-05-25', 1, 2),
 (4, 'Pointeuse', 'Permet de controler la présence des élèves aux cours', 'CFPT', '2', '2020-05-25', 2, 3),
-(11, 'GUMPRUNTE', 'Emprunt de livres d&#39;école.', 'CFPT', '15', '2020-05-29', 1, 2),
-(16, 'as', 'ass', 'sssa', '1', '2020-05-25', 1, 2);
+(11, 'GUMPRUNTE', 'Emprunt de livres d&#39;école.', 'CFPT', '1', '2020-05-29', 1, 2),
+(22, 'asd', 'asd', 'asd', '1', '2020-06-10', 3, 3),
+(24, 'SHR', 'Restaurant.', 'SH-R', '2', '2020-06-24', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -225,14 +229,15 @@ CREATE TABLE `travaille_pour` (
 --
 
 INSERT INTO `travaille_pour` (`idProjet`, `idEleve`, `estEvalue`) VALUES
-(2, 2, 1),
+(2, 2, 0),
 (2, 1, 1),
-(3, 4, 1),
+(3, 4, 0),
 (3, 2, 0),
-(16, 1, 0),
+(24, 1, 1),
 (3, 1, 1),
 (11, 4, 0),
-(16, 4, 0);
+(2, 3, 0),
+(24, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -258,9 +263,10 @@ INSERT INTO `utilisateurs` (`idUtilisateur`, `nom`, `prenom`, `email`, `motDePas
 (2, 'Weber', 'Sandrine', 'edu-webers@eduge.ch', '8451ba8a14d79753d34cb33b51ba46b4b025eb81', '2'),
 (3, 'Travenjak', 'Jasmina', 'edu-travnjakj@eduge.ch', '8451ba8a14d79753d34cb33b51ba46b4b025eb81', '2'),
 (5, 'Szeless', 'Tatjana', 'tatjana.szlss@eduge.ch', '8451ba8a14d79753d34cb33b51ba46b4b025eb81', '3'),
-(6, 'Meier', 'Luc', 'luc.mr@eduge.ch', '', '3'),
-(7, 'Morel', 'Yannick', 'yannick.mrl@eduge.ch', '', '3'),
-(8, 'Tissot', 'Thomas', 'thomas.tsst@eduge.ch', '', '3');
+(6, 'Meier', 'Luc', 'luc.mr@eduge.ch', '8451ba8a14d79753d34cb33b51ba46b4b025eb81', '3'),
+(7, 'Morel', 'Yannick', 'yannick.mrl@eduge.ch', '8451ba8a14d79753d34cb33b51ba46b4b025eb81', '3'),
+(8, 'Tissot', 'Thomas', 'thomas.tsst@eduge.ch', '8451ba8a14d79753d34cb33b51ba46b4b025eb81', '3'),
+(9, 'admin', 'admin', 'adminEE@gmail.com', '8451ba8a14d79753d34cb33b51ba46b4b025eb81', '1');
 
 --
 -- Index pour les tables déchargées
@@ -328,37 +334,37 @@ ALTER TABLE `utilisateurs`
 -- AUTO_INCREMENT pour la table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `idCategorie` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idCategorie` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT pour la table `criteres`
 --
 ALTER TABLE `criteres`
-  MODIFY `idCritere` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `idCritere` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT pour la table `domaines`
 --
 ALTER TABLE `domaines`
-  MODIFY `idDomaine` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idDomaine` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT pour la table `eleves`
 --
 ALTER TABLE `eleves`
-  MODIFY `idEleve` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idEleve` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT pour la table `evaluations`
 --
 ALTER TABLE `evaluations`
-  MODIFY `idEvaluation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `idEvaluation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 --
 -- AUTO_INCREMENT pour la table `projets`
 --
 ALTER TABLE `projets`
-  MODIFY `idProjet` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `idProjet` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT pour la table `utilisateurs`
 --
 ALTER TABLE `utilisateurs`
-  MODIFY `idUtilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;COMMIT;
+  MODIFY `idUtilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
