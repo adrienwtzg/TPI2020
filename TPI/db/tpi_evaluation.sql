@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  ven. 05 juin 2020 à 11:46
+-- Généré le :  ven. 05 juin 2020 à 22:48
 -- Version du serveur :  5.7.17
 -- Version de PHP :  5.6.30
 
@@ -98,9 +98,7 @@ INSERT INTO `criteres_projets` (`idProjet`, `idCritere`) VALUES
 (11, 9),
 (24, 1),
 (24, 2),
-(24, 3),
-(24, 9),
-(24, 17);
+(24, 3);
 
 -- --------------------------------------------------------
 
@@ -144,7 +142,8 @@ INSERT INTO `eleves` (`idEleve`, `classe`, `annee`, `idUtilisateur`) VALUES
 (2, 'I.DA-P3C', '3', 5),
 (3, 'I.DA-P3C', '3', 6),
 (4, 'I.DA-P3C', '3', 7),
-(5, 'I.DA-P3C', '3', 8);
+(5, 'I.DA-P3C', '3', 8),
+(9, 'I.DA-P4B', '4', 5);
 
 -- --------------------------------------------------------
 
@@ -167,21 +166,16 @@ CREATE TABLE `evaluations` (
 --
 
 INSERT INTO `evaluations` (`idEvaluation`, `observation`, `date`, `pointsObtenus`, `idEleve`, `idProjet`, `idCritere`) VALUES
-(10, 'Bravo', '2020-06-02', '10', 1, 2, 1),
+(10, 'Bravo', '2020-06-02', '2', 1, 2, 1),
 (9, 'asd', '2020-06-02', '7', 1, 2, 2),
 (8, 'sda', '2020-06-02', '4', 1, 2, 9),
 (7, 'aaa', '2020-06-02', '10', 1, 2, 3),
-(44, 'asdasd', '2020-06-05', '13', 1, 24, 17),
-(43, 'asdsa', '2020-06-05', '5', 1, 24, 1),
-(42, 'asd', '2020-06-05', '5', 1, 24, 2),
 (39, 'En général oui', '2020-06-04', '10', 1, 3, 17),
 (38, '', '2020-06-04', '6', 1, 3, 1),
 (37, 'Non', '2020-06-04', '3', 1, 3, 10),
 (34, 'ça va', '2020-06-04', '8', 1, 3, 3),
 (35, 'Bien !', '2020-06-04', '3', 1, 3, 9),
-(36, 'Très distrait', '2020-06-04', '2', 1, 3, 2),
-(41, 'asd', '2020-06-05', '3', 1, 24, 9),
-(40, 'asd', '2020-06-05', '3', 1, 24, 3);
+(36, 'Très distrait', '2020-06-04', '2', 1, 3, 2);
 
 -- --------------------------------------------------------
 
@@ -205,12 +199,10 @@ CREATE TABLE `projets` (
 --
 
 INSERT INTO `projets` (`idProjet`, `titre`, `description`, `client`, `dureePrevue`, `dateDebut`, `idDomaine`, `idUtilisateur`) VALUES
-(2, 'PRO-VELO', 'Site d\'itinéraire de vélo...', 'GE-Roule', '2', '2020-05-25', 1, 2),
+(2, 'PRO-VELO', 'Site d&#39;itinéraire de vélo...', 'GE-Roule', '2', '2020-05-25', 1, 2),
 (3, 'GE-soif', 'Localise les fontaines autour de l\'utilisateur à Genève.', 'CFPT', '2', '2020-05-25', 1, 2),
 (4, 'Pointeuse', 'Permet de controler la présence des élèves aux cours', 'CFPT', '2', '2020-05-25', 2, 3),
-(11, 'GUMPRUNTE', 'Emprunt de livres d&#39;école.', 'CFPT', '1', '2020-05-29', 1, 2),
-(22, 'asd', 'asd', 'asd', '1', '2020-06-10', 3, 3),
-(24, 'SHR', 'Restaurant.', 'SH-R', '2', '2020-06-24', 1, 2);
+(11, 'GUMPRUNTE', 'Emprunt de livres d&#39;école.', 'CFPT', '1', '2020-05-29', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -233,10 +225,9 @@ INSERT INTO `travaille_pour` (`idProjet`, `idEleve`, `estEvalue`) VALUES
 (2, 1, 1),
 (3, 4, 0),
 (3, 2, 0),
-(24, 1, 1),
+(24, 1, 0),
 (3, 1, 1),
 (11, 4, 0),
-(2, 3, 0),
 (24, 2, 0);
 
 -- --------------------------------------------------------
@@ -266,7 +257,8 @@ INSERT INTO `utilisateurs` (`idUtilisateur`, `nom`, `prenom`, `email`, `motDePas
 (6, 'Meier', 'Luc', 'luc.mr@eduge.ch', '8451ba8a14d79753d34cb33b51ba46b4b025eb81', '3'),
 (7, 'Morel', 'Yannick', 'yannick.mrl@eduge.ch', '8451ba8a14d79753d34cb33b51ba46b4b025eb81', '3'),
 (8, 'Tissot', 'Thomas', 'thomas.tsst@eduge.ch', '8451ba8a14d79753d34cb33b51ba46b4b025eb81', '3'),
-(9, 'admin', 'admin', 'adminEE@gmail.com', '8451ba8a14d79753d34cb33b51ba46b4b025eb81', '1');
+(9, 'Doe', 'John', 'adminEE@gmail.com', '8451ba8a14d79753d34cb33b51ba46b4b025eb81', '1'),
+(20, 'Szeless', 'Tatjana', 'tati@gmail.com', '8451ba8a14d79753d34cb33b51ba46b4b025eb81', '3');
 
 --
 -- Index pour les tables déchargées
@@ -339,7 +331,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT pour la table `criteres`
 --
 ALTER TABLE `criteres`
-  MODIFY `idCritere` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `idCritere` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT pour la table `domaines`
 --
@@ -349,7 +341,7 @@ ALTER TABLE `domaines`
 -- AUTO_INCREMENT pour la table `eleves`
 --
 ALTER TABLE `eleves`
-  MODIFY `idEleve` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `idEleve` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT pour la table `evaluations`
 --
@@ -359,12 +351,12 @@ ALTER TABLE `evaluations`
 -- AUTO_INCREMENT pour la table `projets`
 --
 ALTER TABLE `projets`
-  MODIFY `idProjet` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `idProjet` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT pour la table `utilisateurs`
 --
 ALTER TABLE `utilisateurs`
-  MODIFY `idUtilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;COMMIT;
+  MODIFY `idUtilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

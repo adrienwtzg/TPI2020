@@ -41,6 +41,8 @@ elseif ($page == "projetDetail") {
         case 3:
           include 'views/projetDetailEleve.php';
           break;
+        case 1:
+        include 'views/adminProjets.php';
       }
   }
   else {

@@ -125,6 +125,9 @@ if (isset($_SESSION["messageMemeNomUtilisateur"])) {
     </div>
   </div>
   <br>
+  <div style="text-align: center;">
+    <h3>Gestion des utilisateurs</h3>
+  </div>
   <div class="row">
     <table class="table table-hover">
       <thead>

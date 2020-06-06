@@ -21,33 +21,33 @@ if (isset($_POST["download"])) {
   $page_height = 286.93;
   $pdf->AddFont('Helvetica','');
   $pdf->SetFont('Helvetica', '',18);
-  $pdf->Cell(180, 10, $projet["titre"]. " - ".$eleve["prenom"]." ".$eleve["nom"]." - ".date("d/m/Y"), '', 1, '');
+  $pdf->Cell(180, 10, utf8_decode($projet["titre"]). " - ".$eleve["prenom"]." ".$eleve["nom"]." - ".date("d/m/Y"), '', 1, '');
   $pointsObtenus += $evaluation["pointsObtenus"];
   $pointsTotal += $evaluation["pointsMax"];
 
   foreach (getCategoriesCriteres() as $categorie) {
     if (!empty(getCriteresByCategories($categorie["idCategorie"], $idProjet))) {
         $pdf->SetFont('Helvetica','B',18);
-        $pdf->Cell(180, 10, $categorie["categorie"], '', 1, '');
+        $pdf->Cell(180, 10, utf8_decode($categorie["categorie"]), '', 1, '');
         $pdf->Cell(180, 4, "", '', 1);
       foreach (getEvaluations($idEleve, $idProjet, $categorie["idCategorie"]) as $evaluation) {
         if ($pdf->GetY() > $page_height - 80) {
           $pdf->AddPage();
         }
         $pdf->SetFont('Helvetica','B',16);
-        $pdf->Cell(180, 10, $evaluation["critere"], 'LTRB', 1, 'C');
+        $pdf->Cell(180, 10, utf8_decode($evaluation["critere"]), 'LTRB', 1, 'C');
         $pdf->SetFont('Helvetica','',12);
         if ($pdf->GetStringWidth($evaluation["definition"]) >= 180) {
-          $pdf->MultiCell(180, 10, $evaluation["definition"], 'LR', 1);
+          $pdf->MultiCell(180, 10, utf8_decode($evaluation["definition"]), 'LR', 1);
         }
         else {
-          $pdf->Cell(180, 10, $evaluation["definition"], 'LR', 1);
+          $pdf->Cell(180, 10, utf8_decode($evaluation["definition"]), 'LR', 1);
         }
         if ($pdf->GetStringWidth($evaluation["observation"]) >= 180) {
-          $pdf->MultiCell(180, 10, "Commentaire: ".$evaluation["observation"], 'LTR', 1);
+          $pdf->MultiCell(180, 10, "Commentaire: ".utf8_decode($evaluation["observation"]), 'LTR', 1);
         }
         else {
-          $pdf->Cell(180, 10, "Commentaire: ".$evaluation["observation"], 'LTR', 1);
+          $pdf->Cell(180, 10, "Commentaire: ".utf8_decode($evaluation["observation"]), 'LTR', 1);
         }
         $pdf->SetFont('Helvetica','B',16);
         $pointsObtenus += $evaluation["pointsObtenus"];

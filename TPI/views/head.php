@@ -22,6 +22,7 @@
               //Administrateur
               case 1:
                 echo '<li class="pages"><a href="index.php?page=projets">Gestion administrateur</a></li>';
+                echo '<li class="pages"><a href="index.php?page=projetDetail">Gestion de projets</a></li>';
                 echo '<li class="pages"><a href="index.php?page=criteres">Gestion des Critères</a></li>';
                 echo '<li class="pages" style="float: right;"><a href="index.php?page=logout">Déconnexion</a></li>';
                 echo '<li class="pages" style="float: right;"><a href="index.php?page=profil">Profil</a></li>';
