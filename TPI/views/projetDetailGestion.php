@@ -12,6 +12,7 @@
   include 'model/getDomaines.php';
   include 'model/getDomaineById.php';
   include 'model/deleteCritereProjet.php';
+  include 'model/getCritereProjet.php';
 
 if (isset($_POST['action'])) {
   if ($_POST['action'] == 'evaluer') {
@@ -86,7 +87,8 @@ if (isset($_POST['action'])) {
       echo "<input type=\"hidden\" name=\"idProjet\" value=\"".$projet["idProjet"]."\">";
       echo "      <a style=\"padding-top: 20px;\" class=\"list-group-item list-group-item-action\">".$eleve["prenom"]."  ".$eleve["nom"]."";
       if (!estEvalue($eleve["idEleve"], $idProjet)) {
-        echo "<button title=\"Supprimer de ce projet\" name=\"action\" value=\"supprimer\" class=\"cross btn\">&#10060;</button><button style=\"float: right;\" type=\"submit\" name=\"action\" value=\"evaluer\" class=\"btn btn-success\">Evaluer</button><p class=\"text-danger\">Non évalué</p>   </a>";
+        $btnEvaluer = "<button style=\"float: right;\" type=\"submit\" name=\"action\" value=\"evaluer\" class=\"btn btn-success\">Evaluer</button>";
+        echo "<button title=\"Supprimer de ce projet\" name=\"action\" value=\"supprimer\" class=\"cross btn\">&#10060;</button>".((!empty(getCritereProjet($idProjet))) ? $btnEvaluer : "")."<p class=\"text-danger\">Non évalué</p></a>";
       }
       else {
         $critereBloque = true;

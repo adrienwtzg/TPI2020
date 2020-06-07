@@ -5,6 +5,8 @@ include 'model/getUtilisateurs.php';
 include 'model/getCategorieById.php';
 include 'model/getDomaineById.php';
 include 'model/getUtilisateurById.php';
+include 'model/getEleveByUtilisateur.php';
+include 'model/getInfoEleve.php';
 
 //Redirige vers le login si l'utilisateur n'est pas authentifié
 if(!isset($_SESSION["log"])) {
@@ -85,7 +87,7 @@ if (isset($_SESSION["messageMemeNomUtilisateur"])) {
       <table class="table table-hover">
         <thead>
           <tr>
-            <th class="text-center">Catégories des critères <button style="float: right; padding: 0;" class="btn btn-link" data-toggle="modal" data-target="#modalAjoutCategorie">Ajouter un critère</button></th>
+            <th class="text-center">Catégories des critères <button style="float: right; padding: 0;" class="btn btn-link" data-toggle="modal" data-target="#modalAjoutCategorie">Ajouter une catégorie de critères</button></th>
           </tr>
         </thead>
         <tbody>
@@ -106,7 +108,7 @@ if (isset($_SESSION["messageMemeNomUtilisateur"])) {
       <table class="table table-hover">
         <thead>
           <tr>
-            <th class="text-center">Domaines des projets <button data-toggle="modal" data-target="#modalAjoutDomaine" style="float: right; padding: 0;" class="btn btn-link">Ajouter un domaine</button></th>
+            <th class="text-center">Domaines des projets <button data-toggle="modal" data-target="#modalAjoutDomaine" style="float: right; padding: 0;" class="btn btn-link">Ajouter un domaine de projet</button></th>
           </tr>
         </thead>
         <tbody>
@@ -115,7 +117,7 @@ if (isset($_SESSION["messageMemeNomUtilisateur"])) {
             echo '<tr>';
             echo '  <td>'.$domaine["domaine"].'';
             echo "<input type=\"hidden\" name=\"idDomaine\" value=\"".$domaine["idDomaine"]."\">";
-            echo ' <button title="Supprimer cette catégorie" name="action" value="supprimerDomaine" type="submit" class="cross btn">&#10060;</button><button style="float: right;" type="submit" name="action" value="modifierDomaine" class="btn btn-secondary">Modifier</button> </td>';
+            echo ' <button title="Supprimer ce domaine" name="action" value="supprimerDomaine" type="submit" class="cross btn">&#10060;</button><button style="float: right;" type="submit" name="action" value="modifierDomaine" class="btn btn-secondary">Modifier</button> </td>';
             echo '</tr>';
             echo '</form>';
           }
@@ -159,7 +161,7 @@ if (isset($_SESSION["messageMemeNomUtilisateur"])) {
                 break;
             }
             echo '<input type="hidden" name="idUtilisateur" value="'.$utilisateur["idUtilisateur"].'">';
-            echo '  <td class="text-center"><button style="margin-right: 0px;" title="Supprimer cette catégorie" name="action" value="supprimerUtilisateur" type="submit" class="cross btn">&#10060;</button><button type="submit" name="action" value="modifierUtilisateur" class="btn btn-secondary">Modifier</button> </td>';
+            echo '  <td class="text-center"><button style="margin-right: 0px;" title="Supprimer cet utilisateur" name="action" value="supprimerUtilisateur" type="submit" class="cross btn">&#10060;</button><button type="submit" name="action" value="modifierUtilisateur" class="btn btn-secondary">Modifier</button> </td>';
             echo '</tr>';
             echo '</form>';
           }
@@ -279,7 +281,7 @@ if (isset($_SESSION["messageMemeNomUtilisateur"])) {
       <form action="model/updateUtilisateur.php" method="POST">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Modification d'une catégorie de critère</h5>
+            <h5 class="modal-title">Modification d'un utilisateur</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -297,6 +299,20 @@ if (isset($_SESSION["messageMemeNomUtilisateur"])) {
              <label for="">Email</label>
              <input class="form-control" type="text" name="email" value="<?php echo $utilisateurAlter["email"]; ?>" required>
            </div>
+           <div class="form-group">
+             <label for="">Mot de passe (laissez vide pour ne pas le changer)</label>
+             <input class="form-control" type="password" name="motDePasse">
+           </div>
+           <?php if($utilisateurAlter["statut"] == 3) { //Si l'utilisateur est un élève?>
+           <div class="form-group">
+             <label for="classe">Classe</label>
+             <input class="form-control" type="text" name="classe" value="<?php echo getInfoEleve(getEleveByUtilisateur($utilisateurAlter["idUtilisateur"])[0]["idEleve"])["classe"]; ?>" required>
+           </div>
+           <div class="form-group">
+             <label for="annee">Année</label>
+             <input class="form-control" type="number" name="annee" value="<?php echo getInfoEleve(getEleveByUtilisateur($utilisateurAlter["idUtilisateur"])[0]["idEleve"])["annee"]; ?>" required>
+           </div>
+           <?php } ?>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" onclick="location.href ='index.php?page=projets';">Annuler</button>
             <input type="hidden" name="idUtilisateur" value="<?php echo $idUtilisateurAlter; ?>">

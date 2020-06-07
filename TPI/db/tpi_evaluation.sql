@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  ven. 05 juin 2020 à 22:48
+-- Généré le :  Dim 07 juin 2020 à 14:50
 -- Version du serveur :  5.7.17
 -- Version de PHP :  5.6.30
 
@@ -12,6 +12,9 @@ SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
+GRANT USAGE ON *.* TO 'tpi2020'@'localhost';
+
+GRANT ALL PRIVILEGES ON `tpi_evaluation`.* TO 'tpi2020'@'localhost';
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -94,11 +97,9 @@ INSERT INTO `criteres_projets` (`idProjet`, `idCritere`) VALUES
 (3, 9),
 (3, 10),
 (3, 17),
-(11, 3),
-(11, 9),
-(24, 1),
-(24, 2),
-(24, 3);
+(4, 2),
+(4, 3),
+(11, 3);
 
 -- --------------------------------------------------------
 
@@ -142,8 +143,7 @@ INSERT INTO `eleves` (`idEleve`, `classe`, `annee`, `idUtilisateur`) VALUES
 (2, 'I.DA-P3C', '3', 5),
 (3, 'I.DA-P3C', '3', 6),
 (4, 'I.DA-P3C', '3', 7),
-(5, 'I.DA-P3C', '3', 8),
-(9, 'I.DA-P4B', '4', 5);
+(5, 'I.DA-P3C', '3', 8);
 
 -- --------------------------------------------------------
 
@@ -170,12 +170,15 @@ INSERT INTO `evaluations` (`idEvaluation`, `observation`, `date`, `pointsObtenus
 (9, 'asd', '2020-06-02', '7', 1, 2, 2),
 (8, 'sda', '2020-06-02', '4', 1, 2, 9),
 (7, 'aaa', '2020-06-02', '10', 1, 2, 3),
+(50, 'Bravo !', '2020-06-06', '10', 1, 11, 3),
 (39, 'En général oui', '2020-06-04', '10', 1, 3, 17),
 (38, '', '2020-06-04', '6', 1, 3, 1),
 (37, 'Non', '2020-06-04', '3', 1, 3, 10),
 (34, 'ça va', '2020-06-04', '8', 1, 3, 3),
 (35, 'Bien !', '2020-06-04', '3', 1, 3, 9),
-(36, 'Très distrait', '2020-06-04', '2', 1, 3, 2);
+(36, 'Très distrait', '2020-06-04', '2', 1, 3, 2),
+(49, 'Souvent perturbé mais sérieux quand il le faut.', '2020-06-06', '5', 1, 4, 2),
+(48, 'Très bien !', '2020-06-06', '12', 1, 4, 3);
 
 -- --------------------------------------------------------
 
@@ -201,7 +204,7 @@ CREATE TABLE `projets` (
 INSERT INTO `projets` (`idProjet`, `titre`, `description`, `client`, `dureePrevue`, `dateDebut`, `idDomaine`, `idUtilisateur`) VALUES
 (2, 'PRO-VELO', 'Site d&#39;itinéraire de vélo...', 'GE-Roule', '2', '2020-05-25', 1, 2),
 (3, 'GE-soif', 'Localise les fontaines autour de l\'utilisateur à Genève.', 'CFPT', '2', '2020-05-25', 1, 2),
-(4, 'Pointeuse', 'Permet de controler la présence des élèves aux cours', 'CFPT', '2', '2020-05-25', 2, 3),
+(4, 'Pointeuses', 'Permet de controler la présence des élèves aux cours', 'CFPT', '1', '2021-05-30', 1, 3),
 (11, 'GUMPRUNTE', 'Emprunt de livres d&#39;école.', 'CFPT', '1', '2020-05-29', 1, 2);
 
 -- --------------------------------------------------------
@@ -225,10 +228,9 @@ INSERT INTO `travaille_pour` (`idProjet`, `idEleve`, `estEvalue`) VALUES
 (2, 1, 1),
 (3, 4, 0),
 (3, 2, 0),
-(24, 1, 0),
 (3, 1, 1),
-(11, 4, 0),
-(24, 2, 0);
+(11, 1, 1),
+(4, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -257,8 +259,7 @@ INSERT INTO `utilisateurs` (`idUtilisateur`, `nom`, `prenom`, `email`, `motDePas
 (6, 'Meier', 'Luc', 'luc.mr@eduge.ch', '8451ba8a14d79753d34cb33b51ba46b4b025eb81', '3'),
 (7, 'Morel', 'Yannick', 'yannick.mrl@eduge.ch', '8451ba8a14d79753d34cb33b51ba46b4b025eb81', '3'),
 (8, 'Tissot', 'Thomas', 'thomas.tsst@eduge.ch', '8451ba8a14d79753d34cb33b51ba46b4b025eb81', '3'),
-(9, 'Doe', 'John', 'adminEE@gmail.com', '8451ba8a14d79753d34cb33b51ba46b4b025eb81', '1'),
-(20, 'Szeless', 'Tatjana', 'tati@gmail.com', '8451ba8a14d79753d34cb33b51ba46b4b025eb81', '3');
+(9, 'Doe', 'John', 'adminEE@gmail.com', '8451ba8a14d79753d34cb33b51ba46b4b025eb81', '1');
 
 --
 -- Index pour les tables déchargées
@@ -326,12 +327,12 @@ ALTER TABLE `utilisateurs`
 -- AUTO_INCREMENT pour la table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `idCategorie` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `idCategorie` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT pour la table `criteres`
 --
 ALTER TABLE `criteres`
-  MODIFY `idCritere` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `idCritere` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT pour la table `domaines`
 --
@@ -341,22 +342,22 @@ ALTER TABLE `domaines`
 -- AUTO_INCREMENT pour la table `eleves`
 --
 ALTER TABLE `eleves`
-  MODIFY `idEleve` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `idEleve` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT pour la table `evaluations`
 --
 ALTER TABLE `evaluations`
-  MODIFY `idEvaluation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `idEvaluation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 --
 -- AUTO_INCREMENT pour la table `projets`
 --
 ALTER TABLE `projets`
-  MODIFY `idProjet` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `idProjet` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 --
 -- AUTO_INCREMENT pour la table `utilisateurs`
 --
 ALTER TABLE `utilisateurs`
-  MODIFY `idUtilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;COMMIT;
+  MODIFY `idUtilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -17,29 +17,31 @@
       <ul id="navigation">
         <li id="titlenav"><a>Evaluation projets EE</a></li>
         <?php
+          const STYLE_PAGE_ACTIVE = "style=\"background-color: #F4F9F9;\"";
           if(isset($_SESSION["log"])) {
+            $page = $_GET["page"];
             switch ($_SESSION["statut"]) {
               //Administrateur
               case 1:
-                echo '<li class="pages"><a href="index.php?page=projets">Gestion administrateur</a></li>';
-                echo '<li class="pages"><a href="index.php?page=projetDetail">Gestion de projets</a></li>';
-                echo '<li class="pages"><a href="index.php?page=criteres">Gestion des Critères</a></li>';
+                echo '<li class="pages"><a href="index.php?page=projets" '.(($page == "projets") ? STYLE_PAGE_ACTIVE : "").'>Gestion administrateur</a></li>';
+                echo '<li class="pages"><a href="index.php?page=projetDetail" '.(($page == "projetDetail") ? STYLE_PAGE_ACTIVE : "").'>Gestion de projets</a></li>';
+                echo '<li class="pages"><a href="index.php?page=criteres" '.(($page == "criteres") ? STYLE_PAGE_ACTIVE : "").'>Gestion des Critères</a></li>';
                 echo '<li class="pages" style="float: right;"><a href="index.php?page=logout">Déconnexion</a></li>';
-                echo '<li class="pages" style="float: right;"><a href="index.php?page=profil">Profil</a></li>';
+                echo '<li class="pages" style="float: right;"><a href="index.php?page=profil" '.(($page == "profil") ? STYLE_PAGE_ACTIVE : "").'>Profil</a></li>';
                 echo '<button type="button" style="float: right; margin-top: 6px;;" class="btn btn-outline-dark" disabled>Administrateur</button>';
                 break;
               //Enseignant
               case 2:
-                echo '<li class="pages"><a href="index.php?page=projets">Gestion de projets</a></li>';
+                echo '<li class="pages"><a href="index.php?page=projets" '.(($page == "projets") ? STYLE_PAGE_ACTIVE : "").'>Gestion de projets</a></li>';
                 echo '<li class="pages"><a href="index.php?page=criteres">Gestion des Critères</a></li>';
                 echo '<li class="pages" style="float: right;"><a href="index.php?page=logout">Déconnexion</a></li>';
-                echo '<li class="pages" style="float: right;"><a href="index.php?page=profil">Profil</a></li>';
+                echo '<li class="pages" style="float: right;"><a href="index.php?page=profil" '.(($page == "profil") ? STYLE_PAGE_ACTIVE : "").'>Profil</a></li>';
                 break;
               //Elève
               case 3:
-                echo '<li class="pages"><a href="index.php?page=projets">Mes projets</a></li>';
+                echo '<li class="pages"><a href="index.php?page=projets" '.(($page == "projets") ? STYLE_PAGE_ACTIVE : "").'>Mes projets</a></li>';
                 echo '<li class="pages" style="float: right;"><a href="index.php?page=logout">Déconnexion</a></li>';
-                echo '<li class="pages" style="float: right;"><a href="index.php?page=profil">Profil</a></li>';
+                echo '<li class="pages" style="float: right;"><a href="index.php?page=profil" '.(($page == "profil") ? STYLE_PAGE_ACTIVE : "").'>Profil</a></li>';
                 break;
             }
           }

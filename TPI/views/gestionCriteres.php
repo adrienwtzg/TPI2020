@@ -33,9 +33,12 @@ if (isset($_SESSION["messageMemeNomCritere"])) {
 ?>
 <div class="container">
   <div class="card">
+    <div style="display: inline-block; width: 100%; padding: 15px;">
+      <h5 class="card-title" style="display: inline-block; margin-top: 7px;">Critères</h5>
+      <button type="button" class="btn btn-link" style="float: right;" data-toggle="modal" data-target="#modalAjoutCritereGestion">Ajouter un nouveau critère</button>
+    </div>
    <div class="card-body">
-     <h5 class="card-title" style="display: inline-block;">Critères</h5>
-     <button type="button" class="btn btn-link" style="float: right;" data-toggle="modal" data-target="#modalAjoutCritereGestion">Ajouter un nouveau critère</button>
+
      <div class="container">
        <?php foreach (getCategoriesCriteres() as $categorie) {
          echo "<h5>".$categorie["categorie"]."</h5>";
@@ -66,18 +69,18 @@ if (isset($_SESSION["messageMemeNomCritere"])) {
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Etes-vous sur de vouloir supprimer ce critère</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">Etes-vous sûr de vouloir supprimer ce critère ?</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-      <p>Une fois supprimé le critère ne sera plus récupérable ainsi que toutes les informations relatant du projet (évaluations, critères associés, etc ...)</p>
+      <p>Une fois supprimé, le critère ne sera plus récupérable, ainsi que toutes les informations relatant du critère (évaluations)</p>
       </div>
       <div class="modal-footer">
         <form class="" action="model/deleteCritere.php" method="post">
           <input type="hidden" name="idCritere" value="<?php echo $idCritereAlter; ?>">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
           <button type="submit" class="btn btn-primary">Supprimer</button>
         </form>
       </div>

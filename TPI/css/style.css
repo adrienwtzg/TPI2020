@@ -78,10 +78,6 @@ html, body {
   font-variant: small-caps;
 }
 
-#titlenav a:hover {
-  background-color: #F4F9F9;
-}
-
 
 #footer {
   position: fixed;
