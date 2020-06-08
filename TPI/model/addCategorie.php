@@ -18,6 +18,7 @@ $query = $db->prepare("INSERT INTO `categories`(`categorie`) VALUES (?)");
 $query->bindParam(1, $dataCategorie["categorie"]);
 
   if ($query->execute()) {
+    $_SESSION["messageErreur"] = "<div class=\"alert alert-success\" role=\"alert\">La catégorie a été ajoutée</div>";
     header('Location: ../index.php?page=projets');
   }
   else {

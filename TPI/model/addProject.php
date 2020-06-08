@@ -41,6 +41,7 @@ if (empty($tab)) {
 
 
     if ($query->execute()) {
+      $_SESSION["messageMemeNomProjet"] = "<div class=\"alert alert-success\" role=\"alert\">Le projet a été créé</div>";
       header('Location: ../index.php?page=projets');
     }
     else {

@@ -6,12 +6,10 @@
   include 'model/getCategoriesCriteres.php';
   include 'model/getCriteresByCategories.php';
   include 'model/getCriteresToAdd.php';
-  include 'model/deleteEleveProjet.php';
   include 'model/estEvalue.php';
   include 'model/getNote.php';
   include 'model/getDomaines.php';
   include 'model/getDomaineById.php';
-  include 'model/deleteCritereProjet.php';
   include 'model/getCritereProjet.php';
 
 if (isset($_POST['action'])) {
@@ -20,14 +18,26 @@ if (isset($_POST['action'])) {
       $_SESSION['idUtilisateurEvaluer'] = $_POST['idUtilisateur'];
       header('Location: index.php?page=projetEvaluation');
   } else if ($_POST['action'] == 'supprimer') {
-      deleteEleveProjet($_POST['idUtilisateur'], $_POST['idProjet']);
+      $idUtilisateurD = $_POST['idUtilisateur'];
+      $idProjetD = $_POST['idProjet'];
+      echo "<script type='text/javascript'>
+            $(document).ready(function(){
+            $('#modalDeleteEleveProjet').modal('show');
+            });
+            </script>";
   } else if ($_POST['action'] == 'voirEvaluation') {
     $_SESSION['idProjetEvaluer'] = $_POST['idProjet'];
     $_SESSION['idUtilisateurEvaluer'] = $_POST['idUtilisateur'];
     header('Location: index.php?page=voirEvaluation');
   }
   else if ($_POST['action'] == 'enlever') {
-    deleteCritereProjet($_POST['idProjet'], $_POST['idCritere']);
+    $idCritereD = $_POST['idCritere'];
+    $idProjetD = $_POST['idProjet'];
+    echo "<script type='text/javascript'>
+          $(document).ready(function(){
+          $('#modalDeleteCritereProjet').modal('show');
+          });
+          </script>";
   }
   else {
     //invalid action!
@@ -53,6 +63,13 @@ if (isset($_POST['action'])) {
   {
       echo $_SESSION['maxEleves'];
       unset($_SESSION['maxEleves']);
+  }
+
+  //Message d'erreur du maximum d'élèves atteint
+  if (isset($_SESSION['messageErreur']))
+  {
+      echo $_SESSION['messageErreur'];
+      unset($_SESSION['messageErreur']);
   }
 
   $projet = getProjetById($idProjet);
@@ -149,15 +166,22 @@ if (isset($_POST['action'])) {
          <div class="modal-body">
            <form action="model/addEleveToProjet.php" method="POST">
              <div class="form-group">
-               <select class="form-control" name="idUtilisateur">
-                 <?php  foreach (getEleveToAdd($projet["idProjet"]) as $eleve) {
-                   echo '<option value="'.$eleve["idUtilisateur"].'">'.$eleve["prenom"].' '.$eleve["nom"].'</option>';
-                 }
+               <?php
+                   if(!empty(getEleveToAdd($projet["idProjet"]))){
+                     echo '<select class="form-control" name="idUtilisateur">';
+                     foreach (getEleveToAdd($projet["idProjet"]) as $eleve) {
+                       echo '<option value="'.$eleve["idUtilisateur"].'">'.$eleve["prenom"].' '.$eleve["nom"].'</option>';
+                     }
+                     echo '</select>';
+                     echo '</div>';
+                     echo '<input type="hidden" name="idProjet" value="'.$projet["idProjet"].'">';
+                     echo '<button type="submit" class="btn btn-primary">Ajouter</button>';
+                   }
+                   else {
+                     echo '<div class="alert alert-secondary" role="alert">Il n\'y a plus d\'élèves disponibles</div></div>';
+                   }
                  ?>
-               </select>
-             </div>
-             <input type="hidden" name="idProjet" value="<?php echo $projet["idProjet"]; ?>">
-            <button type="submit" class="btn btn-primary">Ajouter</button>
+
           </form>
          </div>
          <div class="modal-footer">
@@ -271,7 +295,55 @@ if (isset($_POST['action'])) {
      </div>
    </div></div>
 
+   <!-- Modal de suppression d'un élève du projet-->
+   <div class="modal fade" id="modalDeleteEleveProjet" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal-dialog" role="document">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="exampleModalLabel">Voulez-vous vraiment supprimer cet élève du projet ?</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+           </button>
+         </div>
+         <div class="modal-body">
+          <p>L'élève ne fera plus partie du projet.</p>
+         </div>
+         <div class="modal-footer">
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+           <form action="model/deleteEleveProjet.php" method="POST">
+             <input type="hidden" name="idUtilisateur" value="<?php echo $idUtilisateurD; ?>">
+             <input type="hidden" name="idProjet" value="<?php echo $idProjetD; ?>">
+             <button type="submit" class="btn btn-primary">Supprimer</button>
+           </form>
+         </div>
+       </div>
+     </div>
+   </div></div>
 
+   <!-- Modal de suppression d'un critère du projet-->
+   <div class="modal fade" id="modalDeleteCritereProjet" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal-dialog" role="document">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="exampleModalLabel">Voulez-vous vraiment supprimer ce critère du projet ?</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+           </button>
+         </div>
+         <div class="modal-body">
+          <p>Le critère ne fera plus partie du projet.</p>
+         </div>
+         <div class="modal-footer">
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+           <form action="model/deleteCritereProjet.php" method="POST">
+             <input type="hidden" name="idCritere" value="<?php echo $idCritereD; ?>">
+             <input type="hidden" name="idProjet" value="<?php echo $idProjetD; ?>">
+             <button type="submit" class="btn btn-primary">Supprimer</button>
+           </form>
+         </div>
+       </div>
+     </div>
+   </div>
 
  <!-- Modal d'ajout d'un critère existant -->
  <div class="modal fade" id="modalAjoutCritereExistant" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

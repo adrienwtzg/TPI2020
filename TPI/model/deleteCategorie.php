@@ -27,6 +27,7 @@ if ($_SESSION["statut"] == 1) {
     $query = $db->prepare("DELETE FROM categories WHERE `idCategorie` = ?");
     $query->bindParam(1, $dataEvaluation["idCategorie"]);
     $query->execute();
+    $_SESSION["messageErreur"] = "<div class=\"alert alert-success\" role=\"alert\">La catégorie a été supprimée</div>";
     header("Location: ../index.php?page=projets");
   }
   else {

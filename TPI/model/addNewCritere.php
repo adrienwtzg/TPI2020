@@ -28,6 +28,7 @@ if (empty($tab)) {
 
   //Execute la requête
   if ($query->execute()) {
+    $_SESSION["messageMemeNomCritere"] = "<div class=\"alert alert-success\" role=\"alert\">Le critère a été ajouté</div>";
     header('Location: ../index.php?page=criteres');
   }
   else {

@@ -26,9 +26,11 @@ if ($_SESSION["statut"] != 3) {
     $query->execute();
   }
   if (isset($_POST["page"])) {
+    $_SESSION["messageErreur"] = "<div class=\"alert alert-success\" role=\"alert\">Le projet a été supprimé</div>";
     header("Location: ../index.php?page=projetDetail");
   }
   else {
+    $_SESSION["messageErreur"] = "<div class=\"alert alert-success\" role=\"alert\">Le projet a été supprimé</div>";
     header("Location: ../index.php?page=projets");
   }
 

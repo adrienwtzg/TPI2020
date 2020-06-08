@@ -16,7 +16,7 @@ $projet = getProjetById($idProjet);
 
 if (isset($_POST["download"])) {
   $pdf = new FPDF();
-  $pdf->SetAutoPageBreak( false);
+  $pdf->SetAutoPageBreak( true);
   $pdf->AddPage();
   $page_height = 286.93;
   $pdf->AddFont('Helvetica','');
@@ -31,9 +31,6 @@ if (isset($_POST["download"])) {
         $pdf->Cell(180, 10, utf8_decode($categorie["categorie"]), '', 1, '');
         $pdf->Cell(180, 4, "", '', 1);
       foreach (getEvaluations($idEleve, $idProjet, $categorie["idCategorie"]) as $evaluation) {
-        if ($pdf->GetY() > $page_height - 80) {
-          $pdf->AddPage();
-        }
         $pdf->SetFont('Helvetica','B',16);
         $pdf->Cell(180, 10, utf8_decode($evaluation["critere"]), 'LTRB', 1, 'C');
         $pdf->SetFont('Helvetica','',12);
@@ -72,7 +69,7 @@ if (isset($_POST["download"])) {
   $pdf->Cell(60, 10, "Note ", '', 0, '');
   $pdf->Cell(20, 10, getNote($idEleve, $idProjet), 'LTBR', 1, '');
   ob_clean();
-   $pdf->Output();
+   $pdf->Output('D', $eleve["nom"].'_'.$eleve["prenom"].'_'.$projet["titre"].'_Evaluation.pdf');
 }
 ?>
 <div class="card">

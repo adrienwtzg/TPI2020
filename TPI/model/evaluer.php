@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once("../db/databaseConnection.php");
 //Vérifie que les entrées sont correctement syntaxé
 $dataEvaluation = filter_input_array(INPUT_POST, [
@@ -29,7 +30,7 @@ $query = $db->prepare("UPDATE `travaille_pour` SET `estEvalue`= 1 WHERE idProjet
 $query->bindParam(1, $dataEvaluation["idProjet"]);
 $query->bindParam(2, $dataEvaluation["idEleve"]);
 $query->execute();
-
+$_SESSION["messageErreur"] = "<div class=\"alert alert-success\" role=\"alert\">L'évaluation a été faite</div>";
 header('Location: ../index.php?page=projetDetail');
 
 

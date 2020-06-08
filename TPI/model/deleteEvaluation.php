@@ -28,6 +28,7 @@ if ($_SESSION["statut"] == 2) {
   $query->bindParam(1, $dataEvaluation["idProjet"]);
   $query->bindParam(2, $dataEvaluation["idEleve"]);
   $query->execute();
+  $_SESSION["messageErreur"] = "<div class=\"alert alert-success\" role=\"alert\">L'évaluation a été supprimée</div>";
   header("Location: ../index.php?page=projetDetail");
 
 

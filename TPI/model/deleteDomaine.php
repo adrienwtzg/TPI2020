@@ -27,6 +27,7 @@ if ($_SESSION["statut"] == 1) {
     $query = $db->prepare("DELETE FROM domaines WHERE `idDomaine` = ?");
     $query->bindParam(1, $dataDomaine["idDomaine"]);
     $query->execute();
+    $_SESSION["messageErreur"] = "<div class=\"alert alert-success\" role=\"alert\">Le domaine a été supprimé</div>";
     header("Location: ../index.php?page=projets");
   }
   else {

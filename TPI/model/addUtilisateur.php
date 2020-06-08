@@ -49,6 +49,7 @@ if (isset($_POST["classe"])) {
         $query->bindParam(2, $dataUtilisateur["annee"]);
         $query->bindParam(3, $idUtilisateur);
         $query->execute();
+        $_SESSION["messageErreur"] = '<div class="alert alert-success" role="alert">L\'élève à bien été créé</div>';
         header('Location: ../index.php?page=projets');
       }
       else {
@@ -73,43 +74,18 @@ else {
 
   //Connexion à la base données
   $db = connectDB();
+  $query = $db->prepare("INSERT INTO `utilisateurs`(`nom`, `prenom`, `email`, `motDePasse`, `statut`) VALUES (?,?,?,?,?)");
+  $query->bindParam(1, $dataUtilisateur["nom"]);
+  $query->bindParam(2, $dataUtilisateur["prenom"]);
+  $query->bindParam(3, $dataUtilisateur["email"]);
+  $query->bindParam(4, $mdpChiffre);
+  $query->bindParam(5, $dataUtilisateur["statut"]);
 
-  if ($dataUtilisateur["statut"] == 3) {
-    $query = $db->prepare("INSERT INTO `utilisateurs`(`nom`, `prenom`, `email`, `motDePasse`, `statut`) VALUES (?,?,?,?,?)");
-    $query->bindParam(1, $dataUtilisateur["nom"]);
-    $query->bindParam(2, $dataUtilisateur["prenom"]);
-    $query->bindParam(3, $dataUtilisateur["email"]);
-    $query->bindParam(4, $mdpChiffre);
-    $query->bindParam(5, $dataUtilisateur["statut"]);
-
-      if ($query->execute()) {
-        $idUtilisateur = GetIdByName($dataUtilisateur["prenom"], $dataUtilisateur["nom"])["idUtilisateur"];
-        $class = "I-DA-P3C";
-        $annee = "3";
-        $query = $db->prepare("INSERT INTO `eleves` (`classe`, `annee`, `idUtilisateur`) VALUES (?,?,?)");
-        $query->bindParam(1, $class);
-        $query->bindParam(2, $annee);
-        $query->bindParam(3, $idUtilisateur);
-        $query->execute();
-        header('Location: ../index.php?page=projets');
-      }
-      else {
-        header('Location: ../index.php?page=projets');
-      }
-
-  }
-  else {
-    $query = $db->prepare("INSERT INTO `utilisateurs`(`nom`, `prenom`, `email`, `motDePasse`, `statut`) VALUES (?,?,?,?,?)");
-    $query->bindParam(1, $dataUtilisateur["nom"]);
-    $query->bindParam(2, $dataUtilisateur["prenom"]);
-    $query->bindParam(3, $dataUtilisateur["email"]);
-    $query->bindParam(4, $mdpChiffre);
-    $query->bindParam(5, $dataUtilisateur["statut"]);
-
-      if ($query->execute()) {
-        header('Location: ../index.php?page=projets');
-      }
-  }}
+    if ($query->execute()) {
+      $_SESSION["messageErreur"] = '<div class="alert alert-success" role="alert">L\'enseignant à bien été créé</div>';
+      header('Location: ../index.php?page=projets');
+    }
+}
 
 
 ?>

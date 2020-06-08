@@ -13,6 +13,11 @@ if (isset($_SESSION["messageMemeNomProjet"])) {
   unset($_SESSION["messageMemeNomProjet"]);
 }
 
+if (isset($_SESSION["messageErreur"])) {
+  echo $_SESSION["messageErreur"];
+  unset($_SESSION["messageErreur"]);
+}
+
 ?>
 <button type="button" class="btn btn-success" style=" margin: 20px;" data-toggle="modal" data-target="#modalAjoutProjets">Ajouter un projet</button>
 <div class="container" style="float:right;">

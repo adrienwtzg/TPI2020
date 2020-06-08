@@ -11,9 +11,6 @@ $dataProjet = filter_input_array(INPUT_POST, [
     "idCritere" => FILTER_SANITIZE_STRING
 ]);
 
-
-
-
 //Vérifie que la personne qui supprime un utilisateur d'un projet soit un enseignant
 if ($_SESSION["statut"] != 3) {
   //Connexion à la base données
@@ -25,9 +22,8 @@ if ($_SESSION["statut"] != 3) {
     $query->bindParam(1, $dataProjet["idCritere"]);
     $query->execute();
   }
+  $_SESSION["messageMemeNomCritere"] = "<div class=\"alert alert-success\" role=\"alert\">Le critère a été supprimé</div>";
   header("Location: ../index.php?page=criteres");
-
-
 }
 else {
   header('Location: ../index.php?page=error');

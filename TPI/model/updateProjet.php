@@ -1,6 +1,7 @@
 <?php
 include 'getCritereIdByName.php';
 include '../db/databaseConnection.php';
+session_start();
 
 //Vérifie que les entrées sont correctement syntaxé
 $dataProjet = filter_input_array(INPUT_POST, [
@@ -27,7 +28,7 @@ $query->bindParam(7, $dataProjet["idProjet"]);
 
 //Execute la requête
 if ($query->execute()) {
-
+  $_SESSION["messageErreur"] = "<div class=\"alert alert-success\" role=\"alert\">Le projet a été modifié</div>";
   header('Location: ../index.php?page=projetDetail');
 }
 else {

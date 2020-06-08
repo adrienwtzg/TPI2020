@@ -35,7 +35,7 @@ if ($dataUtilisateur["statut"] == 3) {
     $query->bindParam(1, $dataUtilisateur["idUtilisateur"]);
     $query->execute();
   }
-  $_SESSION["messageErreur"] = "<div class=\"alert alert-success\" role=\"alert\">L'utilisateur a bien été supprimé</div>";
+  $_SESSION["messageErreur"] = "<div class=\"alert alert-success\" role=\"alert\">L'élève a été supprimé</div>";
   header("Location: ../index.php?page=projets");
 
 
@@ -56,6 +56,7 @@ else {
       $query = $db->prepare("DELETE FROM $table WHERE `idUtilisateur` = ? ");
       $query->bindParam(1, $dataUtilisateur["idUtilisateur"]);
       $query->execute();
+      $_SESSION["messageErreur"] = "<div class=\"alert alert-success\" role=\"alert\">L'enseignant a été supprimé</div>";
       header("Location: ../index.php?page=projets");
     }
   }

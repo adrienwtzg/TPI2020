@@ -33,7 +33,7 @@
               //Enseignant
               case 2:
                 echo '<li class="pages"><a href="index.php?page=projets" '.(($page == "projets") ? STYLE_PAGE_ACTIVE : "").'>Gestion de projets</a></li>';
-                echo '<li class="pages"><a href="index.php?page=criteres">Gestion des Critères</a></li>';
+                echo '<li class="pages"><a href="index.php?page=criteres" '.(($page == "criteres") ? STYLE_PAGE_ACTIVE : "").'>Gestion des Critères</a></li>';
                 echo '<li class="pages" style="float: right;"><a href="index.php?page=logout">Déconnexion</a></li>';
                 echo '<li class="pages" style="float: right;"><a href="index.php?page=profil" '.(($page == "profil") ? STYLE_PAGE_ACTIVE : "").'>Profil</a></li>';
                 break;

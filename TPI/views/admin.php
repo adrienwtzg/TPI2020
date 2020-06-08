@@ -305,8 +305,15 @@ if (isset($_SESSION["messageMemeNomUtilisateur"])) {
            </div>
            <?php if($utilisateurAlter["statut"] == 3) { //Si l'utilisateur est un élève?>
            <div class="form-group">
+             <?php
+              $classeActive = getInfoEleve(getEleveByUtilisateur($utilisateurAlter["idUtilisateur"])[0]["idEleve"])["classe"];
+             ?>
              <label for="classe">Classe</label>
-             <input class="form-control" type="text" name="classe" value="<?php echo getInfoEleve(getEleveByUtilisateur($utilisateurAlter["idUtilisateur"])[0]["idEleve"])["classe"]; ?>" required>
+             <select class="form-control" name="classe">
+               <option value="I.DA-P3A" <?php echo (($classeActive == "I.DA-P3A") ? "selected": "") ?>>I.DA-P3A</option>
+               <option value="I.DA-P3B" <?php echo (($classeActive == "I.DA-P3B") ? "selected": "") ?>>I.DA-P3B</option>
+               <option value="I.DA-P3C" <?php echo (($classeActive == "I.DA-P3C") ? "selected": "") ?>>I.DA-P3C</option>
+             </select>
            </div>
            <div class="form-group">
              <label for="annee">Année</label>
@@ -441,7 +448,7 @@ if (isset($_SESSION["messageMemeNomUtilisateur"])) {
          $(document).ready(function() {
             $('#statut').change(function(){
                 if ($(this).find("option:selected").attr('value') == 3) {
-                  $(".eleveContent").append("<label>Classe</label><input class=\"form-control\" name=\"classe\" type=\"text\" ><br><label>Année</label><input class=\"form-control\" name=\"annee\" type=\"number\" ><br>");
+                  $(".eleveContent").append("<label>Classe</label><select name=\"classe\" class=\"form-control\"><option value=\"I.DA-P3A\">I.DA-P3A</option><option value=\"I.DA-P3B\">I.DA-P3B</option><option value=\"I.DA-P3C\">I.DA-P3C</option></select><br><label>Année</label><input class=\"form-control\" name=\"annee\" type=\"number\" ><br>");
                 }
                 else {
                   $(".eleveContent").empty();

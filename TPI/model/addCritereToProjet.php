@@ -17,6 +17,7 @@ if(isset($_POST['idCritere'])){
         $query->bindParam(2, $idCritere);
         $query->execute();
         }
+        $_SESSION["messageErreur"] = '<div class="alert alert-success" role="alert">Le critère a été ajouté au projet</div>';
         header('Location: ../index.php?page=projetDetail');
     }
 

@@ -34,6 +34,7 @@ if ($query->execute()) {
       $query->bindParam(2, getEleveByUtilisateur($dataEleveProjet["idUtilisateur"])[0]["idEleve"]);
 
       if ($query->execute()) {
+        $_SESSION["messageErreur"] = '<div class="alert alert-success" role="alert">L\'élève a été ajouté au projet</div>';
         header('Location: ../index.php?page=projetDetail');
       }
       else {

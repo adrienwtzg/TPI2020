@@ -2,6 +2,7 @@
 include 'getCritereIdByName.php';
 include '../db/databaseConnection.php';
 include 'getEleveByUtilisateur.php';
+session_start();
 
 if (isset($_POST["classe"])) {
   //Vérifie que les entrées sont correctement syntaxé
@@ -43,6 +44,7 @@ if (isset($_POST["classe"])) {
     $query->bindParam(2, $dataUtilisateur["annee"]);
     $query->bindParam(3, getEleveByUtilisateur($dataUtilisateur["idUtilisateur"])[0]["idEleve"]);
     $query->execute();
+    $_SESSION["messageErreur"] = "<div class=\"alert alert-success\" role=\"alert\">L'élève a été modifié</div>";
     header('Location: ../index.php?page=projets');
   }
   else {
@@ -82,7 +84,7 @@ else {
 
   //Execute la requête
   if ($query->execute()) {
-
+    $_SESSION["messageErreur"] = "<div class=\"alert alert-success\" role=\"alert\">L'enseignant a été modifié</div>";
     header('Location: ../index.php?page=projets');
   }
   else {

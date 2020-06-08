@@ -18,6 +18,7 @@ $query = $db->prepare("INSERT INTO `domaines`(`domaine`) VALUES (?)");
 $query->bindParam(1, $dataDomaine["domaine"]);
 
   if ($query->execute()) {
+    $_SESSION["messageErreur"] = "<div class=\"alert alert-success\" role=\"alert\">Le domaine a été ajouté</div>";
     header('Location: ../index.php?page=projets');
   }
   else {
